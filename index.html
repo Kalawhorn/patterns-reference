@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Patterns reference — coding interview prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F6F3;
+  --card:#FFFFFF;
+  --ink:#15181B;
+  --muted:#636B70;
+  --faint:#8A9196;
+  --rule:#DCE0DA;
+  --signal:#2C6B58;
+  --signal-bg:#E4EFEA;
+  --warn:#9E4420;
+  --warn-bg:#F7E9E2;
+  --term:#191D21;
+  --term-rule:#2C333A;
+  --sp:1.5rem;
+  --display:"Space Grotesk",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:1.5rem}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--body);font-size:16px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{display:grid;grid-template-columns:232px minmax(0,1fr);gap:3.5rem;max-width:1140px;margin:0 auto;padding:0 2rem}
+
+/* ---- rail ---- */
+.rail{position:sticky;top:0;height:100vh;overflow-y:auto;padding:2.5rem 0 3rem;font-family:var(--mono);font-size:12.5px}
+.rail-title{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:-0.01em;margin:0 0 1.4rem;color:var(--ink)}
+.rail h4{font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint);margin:1.6rem 0 .5rem;font-weight:500}
+.rail a{display:block;color:var(--muted);text-decoration:none;padding:.2rem 0 .2rem .75rem;border-left:2px solid transparent;transition:color .15s,border-color .15s}
+.rail a:hover{color:var(--ink)}
+.rail a.on{color:var(--signal);border-left-color:var(--signal);font-weight:500}
+.rail .idx{color:var(--faint);margin-right:.45rem}
+
+/* ---- masthead ---- */
+main{padding:2.5rem 0 6rem;min-width:0}
+.mast{border-bottom:1px solid var(--rule);padding-bottom:2rem;margin-bottom:2.5rem}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--signal);margin:0 0 .9rem}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2rem,4.4vw,2.9rem);line-height:1.05;letter-spacing:-0.028em;margin:0 0 .8rem}
+.lede{font-size:17px;color:var(--muted);margin:0;max-width:46ch}
+
+/* ---- signal table (hero) ---- */
+.signals{margin:0 0 3rem;border:1px solid var(--rule);border-radius:10px;background:var(--card);overflow:hidden}
+.signals-hd{display:flex;justify-content:space-between;align-items:baseline;padding:.85rem 1.15rem;border-bottom:1px solid var(--rule);background:#FAFBF9}
+.signals-hd span{font-family:var(--mono);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--faint)}
+.sig{display:grid;grid-template-columns:1fr auto;gap:1rem;align-items:center;padding:.7rem 1.15rem;border-bottom:1px solid var(--rule);text-decoration:none;color:inherit;transition:background .12s}
+.sig:last-child{border-bottom:none}
+.sig:hover{background:var(--signal-bg)}
+.sig-q{font-size:14.5px;color:var(--muted)}
+.sig-a{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--signal);white-space:nowrap}
+
+/* ---- sections ---- */
+.part{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--faint);
+  padding-top:2.5rem;margin:2.5rem 0 1.5rem;border-top:1px solid var(--rule)}
+section{margin-bottom:3rem;scroll-margin-top:1.5rem}
+h2{font-family:var(--display);font-weight:700;font-size:1.55rem;letter-spacing:-0.02em;margin:0 0 .2rem;display:flex;align-items:baseline;gap:.6rem}
+h2 .idx{font-family:var(--mono);font-size:.85rem;font-weight:500;color:var(--faint);letter-spacing:0}
+h3{font-family:var(--display);font-weight:500;font-size:1.06rem;letter-spacing:-0.01em;margin:2rem 0 .55rem}
+h4{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--faint);margin:1.6rem 0 .5rem;font-weight:500}
+p{margin:0 0 .9rem}
+ul{margin:0 0 1rem;padding-left:1.15rem}
+li{margin-bottom:.35rem}
+a{color:var(--signal)}
+strong{font-weight:600}
+code{font-family:var(--mono);font-size:.885em;background:#E9ECE7;padding:.1em .35em;border-radius:3px;white-space:nowrap}
+.glyph{margin:.5rem 0 1.1rem}
+
+/* ---- trigger line ---- */
+.trigger{border-left:2px solid var(--signal);background:var(--signal-bg);padding:.7rem 1rem;margin:0 0 1.2rem;border-radius:0;font-size:15px}
+.trigger b{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--signal);display:block;margin-bottom:.15rem;font-weight:500}
+.watch{border-left:2px solid var(--warn);background:var(--warn-bg);padding:.7rem 1rem;margin:1.2rem 0;border-radius:0;font-size:15px}
+.watch b{font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--warn);display:block;margin-bottom:.15rem;font-weight:500}
+.watch code,.trigger code{background:rgba(0,0,0,.06)}
+
+/* ---- code ---- */
+.code{position:relative;margin:0 0 1.2rem;border-radius:8px;background:var(--term);overflow:hidden}
+.code-hd{display:flex;justify-content:space-between;align-items:center;padding:.45rem .8rem .45rem 1rem;border-bottom:1px solid var(--term-rule)}
+.code-hd .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#6E7A80}
+.copy{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#8A959C;background:none;border:1px solid var(--term-rule);
+  border-radius:4px;padding:.16rem .5rem;cursor:pointer;transition:color .15s,border-color .15s}
+.copy:hover{color:#CFD6DA;border-color:#48525A}
+.copy.done{color:#7EC5B0;border-color:#2C6B58}
+pre{margin:0;padding:.95rem 1rem 1.1rem;overflow-x:auto;font-family:var(--mono);font-size:13.2px;line-height:1.62;color:#D2D9DD}
+.k{color:#7EC5B0}.s{color:#E3B183}.n{color:#E3B183}.c{color:#67747C;font-style:italic}.f{color:#9BBDE6}.b{color:#B9A6E0}
+
+/* ---- problem tag ---- */
+.prob{display:inline-flex;align-items:baseline;gap:.5rem;font-family:var(--mono);font-size:12px;color:var(--muted);
+  border:1px solid var(--rule);background:var(--card);border-radius:5px;padding:.22rem .55rem;margin:0 0 .8rem;text-decoration:none}
+.prob .no{color:var(--signal);font-weight:600}
+.also{font-size:14px;color:var(--muted);border-top:1px solid var(--rule);padding-top:.8rem;margin-top:1.4rem}
+.also b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:500}
+
+/* ---- lists of problems ---- */
+.plist{columns:2;column-gap:2rem;font-size:14.5px;margin:0 0 1.4rem;padding-left:1.1rem}
+.plist li{break-inside:avoid;margin-bottom:.28rem;color:var(--muted)}
+.plist li b{color:var(--ink);font-weight:500}
+
+/* ---- glossary ---- */
+.gloss h3{margin-top:1.8rem}
+.gloss .code{margin-bottom:.9rem}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:0;padding:0 1.25rem}
+  .rail{position:static;height:auto;padding:1.75rem 0 .5rem;border-bottom:1px solid var(--rule);margin-bottom:1.5rem}
+  .rail-nav{display:flex;flex-wrap:wrap;gap:.4rem 1rem}
+  .rail h4{width:100%;margin:.9rem 0 .1rem}
+  .rail a{padding:.1rem 0;border-left:none}
+  .rail a.on{border-left:none}
+  .plist{columns:1}
+  main{padding-top:0}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="rail">
+  <p class="rail-title">Patterns reference</p>
+  <div class="rail-nav">
+  <h4>Core patterns</h4>
+  <a href="#two-pointers"><span class="idx">[0]</span>Two pointers</a>
+  <a href="#read-write"><span class="idx">[1]</span>Read / write</a>
+  <a href="#window"><span class="idx">[2]</span>Sliding window</a>
+  <a href="#hash"><span class="idx">[3]</span>Hash map</a>
+  <a href="#prefix"><span class="idx">[4]</span>Prefix sum</a>
+  <a href="#stack"><span class="idx">[5]</span>Stack</a>
+  <h4>Search</h4>
+  <a href="#binary">Binary search</a>
+  <a href="#boundary">Boundaries</a>
+  <a href="#rotated">Rotated input</a>
+  <a href="#answer">On the answer</a>
+  <a href="#bfs">BFS</a>
+  <a href="#dfs">DFS</a>
+  <h4>Prep</h4>
+  <a href="#microsoft">Microsoft focus</a>
+  <h4>Python</h4>
+  <a href="#g-lists">Lists &amp; slicing</a>
+  <a href="#g-range">range &amp; loops</a>
+  <a href="#g-dict">Sets &amp; dicts</a>
+  <a href="#g-str">Strings</a>
+  <a href="#g-stack">Stacks &amp; queues</a>
+  <a href="#g-built">Builtins</a>
+  </div>
+</nav>
+<main>
+<header class="mast">
+  <p class="eyebrow">Coding interview prep</p>
+  <h1>Name the pattern first.</h1>
+  <p class="lede">The implementation is usually fifteen lines once you know which technique the problem wants. Recognising it is the part worth practising.</p>
+</header>
+
+<div class="signals">
+  <div class="signals-hd"><span>Signal in the problem</span><span>Reach for</span></div>
+  <a class="sig" href="#two-pointers"><span class="sig-q">Sorted, find a pair</span><span class="sig-a">two pointers</span></a>
+  <a class="sig" href="#read-write"><span class="sig-q">&ldquo;In place&rdquo;, &ldquo;return k&rdquo;</span><span class="sig-a">read / write</span></a>
+  <a class="sig" href="#window"><span class="sig-q">&ldquo;Contiguous&rdquo; plus a constraint</span><span class="sig-a">sliding window</span></a>
+  <a class="sig" href="#hash"><span class="sig-q">Seen before, counting, duplicates</span><span class="sig-a">hash map</span></a>
+  <a class="sig" href="#prefix"><span class="sig-q">Repeated range sums</span><span class="sig-a">prefix sum</span></a>
+  <a class="sig" href="#stack"><span class="sig-q">Matching, nesting, most recent</span><span class="sig-a">stack</span></a>
+  <a class="sig" href="#binary"><span class="sig-q">Sorted, needs better than O(n)</span><span class="sig-a">binary search</span></a>
+  <a class="sig" href="#bfs"><span class="sig-q">Shortest path, level by level</span><span class="sig-a">BFS</span></a>
+  <a class="sig" href="#dfs"><span class="sig-q">Every path, connected regions</span><span class="sig-a">DFS</span></a>
+</div>
+
+<p><strong>Two shortcuts that hold up often.</strong> Sorted input usually means two pointers or binary search. The word &ldquo;contiguous&rdquo; usually means sliding window.</p>
+
+<p class="part">Part one — core patterns</p>
+
+<section id="two-pointers">
+<h2><span class="idx">[0]</span>Two pointers, converging</h2>
+<svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><circle cx="10" cy="8" r="2.5" fill="#2C6B58"/><circle cx="34" cy="8" r="2" fill="#C3C9C2"/><circle cx="58" cy="8" r="2" fill="#C3C9C2"/><circle cx="82" cy="8" r="2" fill="#C3C9C2"/><circle cx="106" cy="8" r="2" fill="#C3C9C2"/><circle cx="130" cy="8" r="2" fill="#C3C9C2"/><circle cx="154" cy="8" r="2.5" fill="#2C6B58"/><path d="M14 8h10" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a1)"/><path d="M150 8h-10" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a1)"/><defs><marker id="a1" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#2C6B58" stroke-width="1.2"/></marker></defs></svg>
+<div class="trigger"><b>Trigger</b>Sorted array and you want a <em>pair</em>. Or you&rsquo;re checking symmetry.</div>
+<p>One pointer at each end, moving inward. Each comparison discards a candidate, so you finish in one pass instead of checking every pair.</p>
+<a class="prob" href="https://leetcode.com/problems/valid-palindrome/"><span class="no">125</span> Valid Palindrome</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def isPalindrome(self, s):
+    left, right = 0, len(s) - 1
+
+    while left &lt; right:
+        while left &lt; right and not s[left].isalnum():
+            left += 1
+        while left &lt; right and not s[right].isalnum():
+            right -= 1
+
+        if s[left].lower() != s[right].lower():
+            return False
+
+        left += 1
+        right -= 1
+
+    return True</code></pre></div>
+<p><code>isalnum()</code> means &ldquo;is alphanumeric&rdquo; — true for letters and digits, false for punctuation and whitespace. So <code>not s[left].isalnum()</code> reads as &ldquo;this is a character to skip&rdquo;.</p>
+<div class="watch"><b>Watch for</b>The skip loops need <code>left &lt; right</code> in their conditions, or a punctuation-only string walks a pointer off the end.</div>
+<p class="also"><b>Also</b> &nbsp;Two Sum II (167) · Container With Most Water (11) · 3Sum (15)</p>
+</section>
+
+<section id="read-write">
+<h2><span class="idx">[1]</span>Two pointers, read / write</h2>
+<svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><circle cx="10" cy="8" r="2" fill="#C3C9C2"/><circle cx="34" cy="8" r="2" fill="#C3C9C2"/><circle cx="58" cy="8" r="2.5" fill="#9E4420"/><circle cx="82" cy="8" r="2" fill="#C3C9C2"/><circle cx="106" cy="8" r="2.5" fill="#2C6B58"/><circle cx="130" cy="8" r="2" fill="#C3C9C2"/><circle cx="154" cy="8" r="2" fill="#C3C9C2"/><path d="M62 8h12" stroke="#9E4420" stroke-width="1.2" marker-end="url(#a2)"/><path d="M110 8h12" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a3)"/><defs><marker id="a2" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#9E4420" stroke-width="1.2"/></marker><marker id="a3" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#2C6B58" stroke-width="1.2"/></marker></defs></svg>
+<div class="trigger"><b>Trigger</b>&ldquo;In place&rdquo;, &ldquo;return k&rdquo;, &ldquo;no extra space&rdquo; — removing or reordering elements.</div>
+<p>A read pointer scans everything; a write pointer trails behind marking where the next kept value goes.</p>
+<a class="prob" href="https://leetcode.com/problems/move-zeroes/"><span class="no">283</span> Move Zeroes</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def moveZeroes(self, nums):
+    write = 0
+
+    for read in range(len(nums)):
+        if nums[read] != 0:
+            nums[write] = nums[read]
+            write += 1
+
+    while write &lt; len(nums):
+        nums[write] = 0
+        write += 1</code></pre></div>
+<p>Because <code>write</code> never passes <code>read</code>, you never overwrite a value you still need. Remove Duplicates (26) and Remove Element (27) use the identical structure and return <code>write</code>. Merge Sorted Array (88) runs it backwards so you fill the padding without clobbering unread values.</p>
+<div class="watch"><b>Watch for</b><code>nums = something</code> rebinds a local name and does nothing to the caller&rsquo;s list. In place means <code>nums[i] = x</code> or <code>nums[:k] = other</code>.</div>
+</section>
+
+<section id="window">
+<h2><span class="idx">[2]</span>Sliding window</h2>
+<svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><rect x="48" y="1" width="72" height="14" rx="3" fill="#E4EFEA" stroke="#2C6B58" stroke-width="1"/><circle cx="10" cy="8" r="2" fill="#C3C9C2"/><circle cx="34" cy="8" r="2" fill="#C3C9C2"/><circle cx="58" cy="8" r="2.5" fill="#2C6B58"/><circle cx="82" cy="8" r="2.5" fill="#2C6B58"/><circle cx="106" cy="8" r="2.5" fill="#2C6B58"/><circle cx="130" cy="8" r="2" fill="#C3C9C2"/><circle cx="154" cy="8" r="2" fill="#C3C9C2"/></svg>
+<div class="trigger"><b>Trigger</b>&ldquo;Contiguous subarray&rdquo; or &ldquo;substring&rdquo; plus a constraint — longest, shortest, at most k.</div>
+<p>Expand right; when the constraint breaks, shrink from the left. Both pointers only move forward, which is what makes it O(n) rather than the O(n&sup2;) of checking every subarray.</p>
+<a class="prob" href="https://leetcode.com/problems/longest-substring-without-repeating-characters/"><span class="no">3</span> Longest Substring Without Repeating Characters</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def lengthOfLongestSubstring(self, s):
+    seen = set()
+    left = 0
+    best = 0
+
+    for right in range(len(s)):
+        while s[right] in seen:
+            seen.remove(s[left])
+            left += 1
+
+        seen.add(s[right])
+        best = max(best, right - left + 1)
+
+    return best</code></pre></div>
+<div class="watch"><b>Watch for</b>Window length is <code>right - left + 1</code> — both ends are inside the window.</div>
+<h4>Fixed-size variant</h4>
+<p>When the window never changes size — substring search, for instance — there is no shrinking. Just slide: <code>for i in range(n - m + 1)</code>.</p>
+<p class="also"><b>Also</b> &nbsp;Minimum Size Subarray Sum (209) · Best Time to Buy and Sell Stock (121) · Longest Repeating Character Replacement (424)</p>
+</section>
+<section id="hash">
+<h2><span class="idx">[3]</span>Hash map</h2>
+<svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><circle cx="10" cy="8" r="2" fill="#C3C9C2"/><circle cx="34" cy="8" r="2" fill="#C3C9C2"/><circle cx="58" cy="8" r="2" fill="#C3C9C2"/><path d="M70 8h22" stroke="#2C6B58" stroke-width="1.2" stroke-dasharray="2 2"/><rect x="96" y="1.5" width="13" height="13" rx="2.5" fill="#E4EFEA" stroke="#2C6B58"/><rect x="115" y="1.5" width="13" height="13" rx="2.5" fill="#E4EFEA" stroke="#2C6B58"/><rect x="134" y="1.5" width="13" height="13" rx="2.5" fill="#E4EFEA" stroke="#2C6B58"/></svg>
+<div class="trigger"><b>Trigger</b>&ldquo;Have I seen this&rdquo;, &ldquo;does a match exist&rdquo;, counting, duplicates. If you&rsquo;re writing a nested loop to search for a value, use this instead.</div>
+<a class="prob" href="https://leetcode.com/problems/two-sum/"><span class="no">1</span> Two Sum</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def twoSum(self, nums, target):
+    seen = {}
+
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i
+
+    return []</code></pre></div>
+<div class="watch"><b>Watch for</b>Check for the complement <em>before</em> inserting the current number, or a value can pair with itself.</div>
+
+<h3>The three things a hash map is for</h3>
+<p>Almost every hash problem is one of these. Naming which one you&rsquo;re in tells you what the values should be.</p>
+<h4>One — membership</h4>
+<p>&ldquo;Have I seen this?&rdquo; Use a <strong>set</strong>. No values needed.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>seen = set()
+for x in nums:
+    if x in seen:
+        return True
+    seen.add(x)</code></pre></div>
+<h4>Two — counting</h4>
+<p>&ldquo;How many of each?&rdquo; Values are numbers.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>counts = {}
+for c in s:
+    counts[c] = counts.get(c, 0) + 1</code></pre></div>
+<h4>Three — grouping</h4>
+<p>&ldquo;Which things share a property?&rdquo; Keys are the property, values are lists.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>groups = defaultdict(list)
+for word in strs:
+    groups[fingerprint(word)].append(word)
+return list(groups.values())</code></pre></div>
+<p>A fourth, less common: <strong>remembering where</strong> something was, with indices as values. That&rsquo;s Two Sum.</p>
+
+<h3>Keys must be hashable</h3>
+<p>Dict keys and set members must be immutable. This is the constraint that silently blocks the obvious approach.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>"aet"            # string  - fine
+(1, 0, 2)        # tuple   - fine
+frozenset(x)     # fine
+["a","e","t"]    # list    - TypeError
+{"a": 1}         # dict    - TypeError</code></pre></div>
+<p>So a letter-count fingerprint can&rsquo;t be a dict — convert it to a tuple. Grid coordinates work as <code>seen[(r, c)]</code> but not <code>seen[[r, c]]</code>.</p>
+
+<h3>Grouping by a computed key</h3>
+<p>The move behind Group Anagrams: when you need things that share a property grouped together, <strong>make the property the key</strong>. No comparison between items ever happens.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>from collections import defaultdict
+
+def groupAnagrams(self, strs):
+    groups = defaultdict(list)
+
+    for word in strs:
+        key = "".join(sorted(word))     # anagrams share a sorted form
+        groups[key].append(word)
+
+    return list(groups.values())</code></pre></div>
+<p>The alternative fingerprint is a 26-slot frequency tuple — <code>tuple(counts)</code>, using <code>ord(ch) - ord("a")</code> as the index. Both convert an unhashable fingerprint into a hashable one. Sorting is O(k log k) per word and shorter to write; counting is O(k) and the better answer if an interviewer pushes. Same move solves Group Shifted Strings (249) and Find Duplicate File in System (609).</p>
+
+<h3>Two-way mapping</h3>
+<p>Isomorphic Strings (205) and Word Pattern (290) need consistency in <strong>both</strong> directions. One dict only enforces one direction — <code>a &rarr; dog</code> and <code>b &rarr; dog</code> both pass individually, but two letters can&rsquo;t claim the same word.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>if val not in mapping:
+    if word in used:
+        return False
+    mapping[val] = word
+    used.add(word)
+elif mapping[val] != word:
+    return False</code></pre></div>
+<p>The alternative is converting both sides to a canonical <strong>shape</strong> and comparing them.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def shape(seq):
+    seen = {}
+    out = []
+    for item in seq:
+        if item not in seen:
+            seen[item] = len(seen)      # first distinct -&gt; 0, second -&gt; 1
+        out.append(seen[item])
+    return out
+
+return shape(pattern) == shape(words)</code></pre></div>
+<p><code>"abba"</code> and <code>["dog","cat","cat","dog"]</code> both become <code>[0,1,1,0]</code>.</p>
+
+<h3>Mistakes to check for</h3>
+<h4>Rebinding instead of assigning into</h4>
+<p>The most common one by far. Same error as <code>nums = result</code> instead of <code>nums[:k] = result</code>.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>storage = {letter: 1}        # replaces the WHOLE dict
+storage[letter] = 1          # sets one key - what you meant</code></pre></div>
+<h4>Reading a key to test whether it exists</h4>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>if storage[key] not in storage:    # KeyError on the first pass
+if key not in storage:             # correct</code></pre></div>
+<h4>get() without a default</h4>
+<p>Returns <code>None</code>, and <code>None != 0</code> is true — so the check you meant to fail quietly passes.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>storage.get(letter)          # None if absent
+storage.get(letter, 0)       # 0 if absent - almost always what you want</code></pre></div>
+<h4>get() when the value can be falsy</h4>
+<p>A key holding <code>0</code> looks identical to a missing key. Use <code>in</code> when existence itself is the question.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>storage = {"a": 0}
+if storage.get("a"):      # False - but the key exists
+if "a" in storage:        # True  - correct</code></pre></div>
+<h4>Treating the returned value as an object</h4>
+<p><code>storage.get(k)</code> returns the value itself. There is no <code>.value</code> on it.</p>
+<h4>append returns None</h4>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>storage[k] = storage[k].append(x)    # sets the value to None
+storage[k].append(x)                 # correct - no assignment</code></pre></div>
+<h4>Appending to a key that doesn&rsquo;t exist yet</h4>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>storage.setdefault(k, []).append(x)   # creates the list if missing
+groups = defaultdict(list)            # or avoid it entirely</code></pre></div>
+
+<h3>Shortcuts worth knowing</h3>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>from collections import Counter, defaultdict
+
+Counter(s)                   # {item: count} in one call
+Counter(s).most_common(1)    # [(most frequent, its count)]
+Counter(a) - Counter(b)      # subtract counts, drops zero and below
+Counter(a) == Counter(b)     # anagram check in one line
+
+defaultdict(list)            # missing key -&gt; []
+defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works</code></pre></div>
+<p><code>Counter(a) - Counter(b)</code> being empty means b covers a — that&rsquo;s Ransom Note (383) in one line.</p>
+<p><strong>Complexity.</strong> Dict and set operations are O(1) average. Using one to replace a nested scan turns O(n&sup2;) into O(n), at the cost of O(n) space. That trade is the whole point, and it&rsquo;s the thing to say out loud in an interview.</p>
+<p class="also"><b>Also</b> &nbsp;Contains Duplicate (217) · Valid Anagram (242) · Group Anagrams (49) · Ransom Note (383) · Isomorphic Strings (205) · Word Pattern (290) · Longest Consecutive Sequence (128) · LRU Cache (146)</p>
+</section>
+
+<section id="prefix">
+<h2><span class="idx">[4]</span>Prefix sum</h2>
+<svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><rect x="8" y="11" width="14" height="4" rx="1" fill="#2C6B58" opacity=".35"/><rect x="28" y="9" width="14" height="6" rx="1" fill="#2C6B58" opacity=".45"/><rect x="48" y="7" width="14" height="8" rx="1" fill="#2C6B58" opacity=".55"/><rect x="68" y="5" width="14" height="10" rx="1" fill="#2C6B58" opacity=".7"/><rect x="88" y="3" width="14" height="12" rx="1" fill="#2C6B58" opacity=".85"/><rect x="108" y="1" width="14" height="14" rx="1" fill="#2C6B58"/></svg>
+<div class="trigger"><b>Trigger</b>Repeated range queries, or &ldquo;how many subarrays sum to k&rdquo;.</div>
+<a class="prob" href="https://leetcode.com/problems/subarray-sum-equals-k/"><span class="no">560</span> Subarray Sum Equals K</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def subarraySum(self, nums, k):
+    counts = {0: 1}
+    running = 0
+    total = 0
+
+    for num in nums:
+        running += num
+        if running - k in counts:
+            total += counts[running - k]
+        counts[running] = counts.get(running, 0) + 1
+
+    return total</code></pre></div>
+<p>A subarray ending here sums to <code>k</code> exactly when some earlier prefix equals <code>running - k</code>. The <code>{0: 1}</code> seed covers subarrays starting at index 0.</p>
+<div class="watch"><b>Why not sliding window</b>Negative numbers break monotonicity — growing the window can shrink the sum. Sliding window needs that property; prefix sum doesn&rsquo;t.</div>
+<p class="also"><b>Also</b> &nbsp;Range Sum Query (303) · Product of Array Except Self (238)</p>
+</section>
+
+<section id="stack">
+<h2><span class="idx">[5]</span>Stack</h2>
+<svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><rect x="8" y="2" width="12" height="12" rx="2" fill="#E4EFEA" stroke="#2C6B58"/><rect x="24" y="2" width="12" height="12" rx="2" fill="#E4EFEA" stroke="#2C6B58"/><rect x="40" y="2" width="12" height="12" rx="2" fill="#2C6B58"/><path d="M60 8h16" stroke="#9E4420" stroke-width="1.2" marker-end="url(#a4)"/><rect x="84" y="2" width="12" height="12" rx="2" fill="#E4EFEA" stroke="#2C6B58"/><rect x="100" y="2" width="12" height="12" rx="2" fill="#2C6B58"/><defs><marker id="a4" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#9E4420" stroke-width="1.2"/></marker></defs></svg>
+<div class="trigger"><b>Trigger</b>Matching or nesting, or anything where you need the <em>most recent</em> thing. A Python list is a stack: <code>append</code> to push, <code>pop()</code> to pop from the end.</div>
+<a class="prob" href="https://leetcode.com/problems/valid-parentheses/"><span class="no">20</span> Valid Parentheses</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def isValid(self, s):
+    pairs = {")": "(", "]": "[", "}": "{"}
+    stack = []
+
+    for char in s:
+        if char in pairs:
+            if not stack or stack.pop() != pairs[char]:
+                return False
+        else:
+            stack.append(char)
+
+    return not stack</code></pre></div>
+<p>Three failure modes, all covered above: wrong type, a closer with nothing open (empty stack), and leftover openers — which is why the last line is <code>return not stack</code> rather than <code>return True</code>.</p>
+<h4>Monotonic stack</h4>
+<p>A variant where you keep the stack sorted, popping anything that breaks the order. It&rsquo;s the answer to &ldquo;next greater element&rdquo; problems, and shows up in Microsoft interviews regularly.</p>
+<p class="also"><b>Also</b> &nbsp;Min Stack (155) · Daily Temperatures (739) · Largest Rectangle in Histogram (84) · Basic Calculator (224)</p>
+</section>
+<p class="part">Part two — search algorithms</p>
+
+<section id="binary">
+<h2>Binary search: the base template</h2>
+<div class="trigger"><b>Trigger</b>Sorted input and you need better than O(n).</div>
+<a class="prob" href="https://leetcode.com/problems/binary-search/"><span class="no">704</span> Binary Search</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def search(self, nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left &lt;= right:
+        mid = (left + right) // 2
+
+        if nums[mid] == target:
+            return mid
+        elif nums[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return -1</code></pre></div>
+<div class="watch"><b>The two bugs that cause most failures</b><code>left &lt;= right</code>, not <code>&lt;</code> — with <code>&lt;</code> you miss the case where one element remains. And <code>mid + 1</code> / <code>mid - 1</code>, not <code>mid</code> — using <code>mid</code> stops the range shrinking and loops forever.</div>
+<p>A million elements take about twenty steps. O(log n) time, O(1) space.</p>
+</section>
+
+<section id="boundary">
+<h2>Binary search for a boundary</h2>
+<p>When duplicates exist and you want the <em>first</em> or <em>last</em> match, don&rsquo;t return on equality — record the hit and keep narrowing.</p>
+<a class="prob" href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"><span class="no">34</span> Find First and Last Position</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def findFirst(nums, target):
+    left, right = 0, len(nums) - 1
+    result = -1
+
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            result = mid
+            right = mid - 1      # found one, but look further left
+        elif nums[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return result</code></pre></div>
+<p>For the last occurrence, flip that one line to <code>left = mid + 1</code>.</p>
+</section>
+
+<section id="rotated">
+<h2>Binary search on rotated input</h2>
+<p>A rotated sorted array still has one sorted half at every step. Work out which half is sorted, then decide whether the target lies inside it.</p>
+<a class="prob" href="https://leetcode.com/problems/search-in-rotated-sorted-array/"><span class="no">33</span> Search in Rotated Sorted Array</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def search(self, nums, target):
+    left, right = 0, len(nums) - 1
+
+    while left &lt;= right:
+        mid = (left + right) // 2
+        if nums[mid] == target:
+            return mid
+
+        if nums[left] &lt;= nums[mid]:              # left half is sorted
+            if nums[left] &lt;= target &lt; nums[mid]:
+                right = mid - 1
+            else:
+                left = mid + 1
+        else:                                    # right half is sorted
+            if nums[mid] &lt; target &lt;= nums[right]:
+                left = mid + 1
+            else:
+                right = mid - 1
+
+    return -1</code></pre></div>
+<p>Common at Microsoft.</p>
+</section>
+
+<section id="answer">
+<h2>Binary search on the answer</h2>
+<div class="trigger"><b>Trigger</b>&ldquo;Minimum speed&rdquo;, &ldquo;smallest capacity&rdquo;, &ldquo;least time such that&hellip;&rdquo; — no array to search, but a <em>range of possible answers</em> that&rsquo;s monotonic. If an answer works, every larger one works too.</div>
+<a class="prob" href="https://leetcode.com/problems/koko-eating-bananas/"><span class="no">875</span> Koko Eating Bananas</a>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def minEatingSpeed(self, piles, h):
+    def hours(speed):
+        return sum((p + speed - 1) // speed for p in piles)
+
+    left, right = 1, max(piles)
+
+    while left &lt; right:
+        mid = (left + right) // 2
+        if hours(mid) &lt;= h:
+            right = mid          # works, try smaller
+        else:
+            left = mid + 1       # too slow
+
+    return left</code></pre></div>
+<p>Note this template uses <code>left &lt; right</code> and returns <code>left</code> — the convergence form, used when you&rsquo;re finding a boundary rather than an exact match. <code>(p + speed - 1) // speed</code> is integer division rounding up.</p>
+</section>
+
+<section id="bfs">
+<h2>BFS — breadth first search</h2>
+<div class="trigger"><b>Trigger</b>Shortest path in an unweighted graph, level-by-level traversal, &ldquo;minimum number of steps&rdquo;.</div>
+<p>Uses a <strong>queue</strong>. Explores everything one step away, then everything two steps away — so the first time you reach a target, you got there by the shortest route.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>from collections import deque
+
+def bfs(grid, start):
+    q = deque([start])
+    seen = {start}
+
+    while q:
+        r, c = q.popleft()
+
+        for dr, dc in ((0,1), (0,-1), (1,0), (-1,0)):
+            nr, nc = r + dr, c + dc
+            if 0 &lt;= nr &lt; len(grid) and 0 &lt;= nc &lt; len(grid[0]) \
+                    and (nr, nc) not in seen and grid[nr][nc] == "1":
+                seen.add((nr, nc))
+                q.append((nr, nc))</code></pre></div>
+<div class="watch"><b>Watch for</b>Use <code>deque</code> and <code>popleft()</code>, not a list and <code>pop(0)</code> — the latter is O(n) per removal. And mark cells as seen when you <em>enqueue</em> them, not when you dequeue, or you&rsquo;ll add duplicates.</div>
+<h4>Level order on a tree</h4>
+<p>Process the queue one full level at a time.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def levelOrder(self, root):
+    if not root:
+        return []
+
+    result = []
+    q = deque([root])
+
+    while q:
+        level = []
+        for _ in range(len(q)):          # snapshot this level's size
+            node = q.popleft()
+            level.append(node.val)
+            if node.left:
+                q.append(node.left)
+            if node.right:
+                q.append(node.right)
+        result.append(level)
+
+    return result</code></pre></div>
+<p><code>for _ in range(len(q))</code> captures the level&rsquo;s size before you start adding the next level. That&rsquo;s the whole trick.</p>
+<p class="also"><b>Also</b> &nbsp;Number of Islands (200) · Binary Tree Level Order (102) · Rotting Oranges (994) · Word Ladder (127)</p>
+</section>
+
+<section id="dfs">
+<h2>DFS — depth first search</h2>
+<div class="trigger"><b>Trigger</b>Explore every path, count connected regions, anything on a tree.</div>
+<p>Uses <strong>recursion</strong> — the call stack is your stack. Goes as deep as possible, then backs up.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def dfs(grid, r, c):
+    if r &lt; 0 or r &gt;= len(grid) or c &lt; 0 or c &gt;= len(grid[0]):
+        return
+    if grid[r][c] != "1":
+        return
+
+    grid[r][c] = "0"                 # mark visited
+
+    dfs(grid, r + 1, c)
+    dfs(grid, r - 1, c)
+    dfs(grid, r, c + 1)
+    dfs(grid, r, c - 1)</code></pre></div>
+<p>Every DFS opens with base cases: out of bounds, already visited, or wrong value. Miss one and you recurse forever.</p>
+<h4>On a tree</h4>
+<p>The base case is just <code>if not node: return</code>.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def maxDepth(self, root):
+    if not root:
+        return 0
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))</code></pre></div>
+<p>The recursive calls return values that get combined on the way back up — the same build-on-the-unwind behaviour as constructing a BST from a sorted array (108).</p>
+<div class="trigger"><b>BFS or DFS?</b>Shortest path calls for BFS. Anything else on a tree or grid, DFS is usually shorter to write.</div>
+<p class="also"><b>Also</b> &nbsp;Number of Islands (200) · Max Depth (104) · Invert Binary Tree (226) · Path Sum (112) · Course Schedule (207)</p>
+</section>
+
+<p class="part">Part three — Microsoft focus</p>
+
+<section id="microsoft">
+<h2>What to expect</h2>
+<p>Company tag lists are compiled from candidate reports and shift over time, so treat this as a weighting rather than a syllabus. Verify against LeetCode&rsquo;s own company tag before relying on it.</p>
+<ul>
+<li><strong>Arrays, strings, and hash tables</strong> are the most common topics by a wide margin.</li>
+<li><strong>Exact LeetCode problems</strong> appear more often than at Google, where interviewers are trained to modify questions. Expect the real thing or a close variant.</li>
+<li>Linked lists, trees, matrix traversal, and stack problems all recur.</li>
+<li>They want you to state complexity and discuss alternatives, not just produce a working solution. Get something working first, then optimise when prompted.</li>
+</ul>
+
+<h3>Arrays and strings</h3>
+<ul class="plist">
+<li><b>Two Sum</b> (1)</li><li><b>Best Time to Buy and Sell Stock</b> (121)</li><li><b>Merge Sorted Array</b> (88)</li><li><b>Rotate Array</b> (189)</li><li><b>Longest Substring Without Repeating</b> (3)</li><li><b>Group Anagrams</b> (49)</li><li><b>Longest Palindromic Substring</b> (5)</li><li><b>String to Integer / atoi</b> (8)</li><li><b>Container With Most Water</b> (11)</li><li><b>3Sum</b> (15)</li>
+</ul>
+<h3>Matrix</h3>
+<ul class="plist">
+<li><b>Spiral Matrix</b> (54)</li><li><b>Set Matrix Zeroes</b> (73)</li><li><b>Rotate Image</b> (48)</li><li><b>Number of Islands</b> (200)</li>
+</ul>
+<h3>Search and sorting</h3>
+<ul class="plist">
+<li><b>Search in Rotated Sorted Array</b> (33)</li><li><b>Find First and Last Position</b> (34)</li><li><b>Merge Intervals</b> (56)</li><li><b>Median of Two Sorted Arrays</b> (4) — hard, senior rounds</li>
+</ul>
+<h3>Linked lists</h3>
+<ul class="plist">
+<li><b>Reverse Linked List</b> (206)</li><li><b>Merge Two Sorted Lists</b> (21)</li><li><b>Add Two Numbers</b> (2)</li><li><b>Copy List with Random Pointer</b> (138)</li><li><b>LRU Cache</b> (146) — design plus linked list, very common</li>
+</ul>
+<h3>Trees</h3>
+<ul class="plist">
+<li><b>Validate Binary Search Tree</b> (98)</li><li><b>Lowest Common Ancestor</b> (236)</li><li><b>Binary Tree Level Order Traversal</b> (102)</li><li><b>Serialize and Deserialize Binary Tree</b> (297)</li>
+</ul>
+<h3>Stack</h3>
+<ul class="plist">
+<li><b>Valid Parentheses</b> (20)</li><li><b>Min Stack</b> (155)</li><li><b>Basic Calculator</b> (224)</li><li><b>Daily Temperatures</b> (739)</li>
+</ul>
+<div class="trigger"><b>Suggested order</b>Finish the six core patterns, then Reverse Linked List and Merge Two Sorted Lists — linked lists are a gap and they&rsquo;re everywhere at Microsoft. Then Number of Islands as a first BFS/DFS, then Spiral Matrix and Merge Intervals.</div>
+</section>
+<p class="part">Part four — Python glossary</p>
+
+<div class="gloss">
+<section id="g-lists">
+<h2>Lists and slicing</h2>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>len(nums)              # size
+nums.append(x)         # add to end, O(1) - returns None
+nums.pop()             # remove and return last
+nums.pop(0)            # remove and return first, O(n)
+nums.insert(0, x)      # add to front, O(n) - avoid in loops
+nums.sort()            # in place, returns None
+sorted(nums)           # new list
+sorted(nums, reverse=True)   # high to low
+sorted(words, key=len)       # sort by something else</code></pre></div>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>nums[1:4]              # items 1,2,3 - stop is exclusive
+nums[:3] / nums[2:]    # from start / to end
+nums[-2:]              # last two
+nums[::-1]             # reversed copy
+s[i:i+m]               # m characters starting at i - a moving window</code></pre></div>
+<p>A slice makes a <strong>new</strong> object. Slice <em>assignment</em> writes into the existing one.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>nums[:k] = other       # mutates the caller's list
+nums = other           # rebinds a local name - caller sees nothing</code></pre></div>
+<div class="watch"><b>Most common in-place bug</b>That second line. If a &ldquo;return k&rdquo; problem gives the right count but a wrong array, this is why.</div>
+</section>
+
+<section id="g-range">
+<h2>range and loops</h2>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>range(5)               # 0 1 2 3 4
+range(2, 5)            # 2 3 4
+range(5, 0, -1)        # 5 4 3 2 1</code></pre></div>
+<p><code>stop</code> is never included. Three boundaries worth memorising — they&rsquo;re the same off-by-one in different clothes.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>range(len(nums) - 1, -1, -1)   # backwards down to index 0
+range(n - m + 1)               # valid starts for a window of size m
+right - left + 1               # length of an inclusive window</code></pre></div>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>for x in nums                  # values
+for i in range(len(nums))      # indices
+for i, x in enumerate(nums)    # both
+for x, y in zip(a, b)          # two lists in parallel
+for x in reversed(nums)        # back to front
+
+7 // 2                 # 3  - integer division, use for midpoints
+7 % 2                  # 1  - remainder
+x += 1                 # Python has no ++
+if 0 &lt;= i &lt; len(nums)  # chained comparison, idiomatic bounds check
+a, b = b, a            # swap, no temp</code></pre></div>
+<div class="watch"><b>Watch for</b><code>for i in some_int</code> is an error — wrap it in <code>range</code>. And in a <code>while</code> loop, <code>continue</code> skips your manual <code>i += 1</code> and hangs forever.</div>
+</section>
+
+<section id="g-dict">
+<h2>Sets and dicts</h2>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>seen = set()
+seen.add(x); seen.remove(x); x in seen       # all O(1)
+
+counts = {}
+counts[key] = value
+counts.get(key, 0)     # default instead of KeyError
+key in counts          # tests KEYS
+for k, v in counts.items()
+
+pairs = {")": "(", "]": "["}     # key: value
+pairs[")"]                        # "(" - look up by name, not position</code></pre></div>
+<p>Put what you&rsquo;ll <em>have</em> on the left of the colon, what you <em>want</em> on the right.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>from collections import Counter
+Counter(s)             # {item: how many} - replaces the get/+1 pattern</code></pre></div>
+</section>
+
+<section id="g-str">
+<h2>Strings</h2>
+<p>Strings index, slice, and iterate exactly like lists.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>s.split()              # on any whitespace, drops empties
+s.split(",")           # on a separator - keeps empties
+"".join(chars)         # list back into a string
+s.strip()              # whitespace off both ends
+
+s.find("x") / s.rfind("x")     # first / last index, -1 if absent
+s.count("x")
+s.startswith("ab") / s.endswith("ing")
+s.replace("a", "b")
+s.lower() / s.upper()
+
+c.isalnum() / c.isalpha() / c.isdigit() / c.isspace()
+ord("a") / chr(97)     # character to number and back</code></pre></div>
+<h3>String mutation</h3>
+<p><strong>Strings are immutable.</strong> You cannot change one in place.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>s[0] = "x"             # TypeError
+s.upper()              # result thrown away - returns a NEW string
+s = s.upper()          # correct</code></pre></div>
+<p>Every string method returns a new string and leaves the original alone. This is the opposite of list methods like <code>sort()</code> and <code>append()</code>, which mutate and return <code>None</code>. To &ldquo;modify&rdquo; a string, convert to a list, change it, join it back.</p>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>chars = list(s)        # ["h", "e", "l", "l", "o"]
+chars[0] = "H"
+s = "".join(chars)     # "Hello"</code></pre></div>
+<div class="watch"><b>Watch for</b>Building a string with <code>result += c</code> in a loop is O(n&sup2;) — each <code>+=</code> copies the whole string. Collect into a list and <code>join</code> once at the end instead.</div>
+<p>Two-pointer problems that reverse a string in place (344) hand you a list of characters rather than a string, precisely because strings can&rsquo;t be mutated.</p>
+</section>
+
+<section id="g-stack">
+<h2>Stacks and queues</h2>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>stack = []
+stack.append(x)        # push
+stack.pop()            # pop from the end - most recent
+if not stack           # empty check - pop() on empty raises IndexError
+
+from collections import deque
+q = deque()
+q.append(x)            # add right, O(1)
+q.popleft()            # remove left, O(1) - use for BFS</code></pre></div>
+</section>
+
+<section id="g-built">
+<h2>Builtins</h2>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>min(nums) / max(nums) / sum(nums) / abs(x)
+max(words, key=len)              # by a computed value
+any(x &gt; 5 for x in nums)         # at least one
+all(x &gt; 0 for x in nums)         # every one
+
+[x * 2 for x in nums]                      # comprehension
+[x for x in nums if x &gt; 0]                 # with a filter
+[i for i, c in enumerate(s) if c == "a"]   # indices matching</code></pre></div>
+<h3>Truthiness</h3>
+<div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>if not nums            # True for empty list
+if not s               # True for empty string
+if not node            # True for None - the base case in most recursion</code></pre></div>
+</section>
+</div>
+
+</main>
+</div>
+<script>
+(function(){
+  var KW = /\b(def|return|if|elif|else|for|while|in|not|and|or|None|True|False|import|from|class|lambda|break|continue|pass|is|yield|with|as|try|except|global)\b/g;
+  var BUILT = /\b(len|range|enumerate|sorted|reversed|set|dict|list|tuple|str|int|max|min|sum|abs|zip|any|all|ord|chr|print|frozenset|deque|defaultdict|Counter)\b/g;
+
+  function highlight(el){
+    var raw = el.innerHTML;
+    var out = '';
+    var i = 0;
+    while(i < raw.length){
+      var rest = raw.slice(i);
+      var cm = rest.match(/^#[^\n]*/);
+      if(cm){ out += '<span class="c">' + cm[0] + '</span>'; i += cm[0].length; continue; }
+      var sm = rest.match(/^("(?:[^"\\\n]|\\.)*"|'(?:[^'\\\n]|\\.)*')/);
+      if(sm){ out += '<span class="s">' + sm[0] + '</span>'; i += sm[0].length; continue; }
+      var em = rest.match(/^&[a-z]+;/);
+      if(em){ out += em[0]; i += em[0].length; continue; }
+      var wm = rest.match(/^[A-Za-z_][A-Za-z0-9_]*/);
+      if(wm){
+        var w = wm[0];
+        KW.lastIndex = 0; BUILT.lastIndex = 0;
+        if(new RegExp('^(' + KW.source.replace(/\\b/g,'') + ')$').test(w)) out += '<span class="k">' + w + '</span>';
+        else if(new RegExp('^(' + BUILT.source.replace(/\\b/g,'') + ')$').test(w)) out += '<span class="b">' + w + '</span>';
+        else out += w;
+        i += w.length; continue;
+      }
+      var nm = rest.match(/^\d+/);
+      if(nm){ out += '<span class="n">' + nm[0] + '</span>'; i += nm[0].length; continue; }
+      out += raw[i]; i++;
+    }
+    el.innerHTML = out;
+  }
+  document.querySelectorAll('pre code').forEach(highlight);
+
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var code = btn.closest('.code').querySelector('code');
+      navigator.clipboard.writeText(code.textContent).then(function(){
+        btn.textContent = 'Copied';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1400);
+      });
+    });
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var targets = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+  function spy(){
+    var pos = window.scrollY + 90, cur = null;
+    targets.forEach(function(t){ if(t.offsetTop <= pos) cur = t.id; });
+    links.forEach(function(a){ a.classList.toggle('on', a.getAttribute('href') === '#' + cur); });
+  }
+  window.addEventListener('scroll', spy, {passive:true});
+  spy();
+})();
+</script>
+</body>
+</html>
