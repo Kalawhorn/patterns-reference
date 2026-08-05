@@ -75,6 +75,8 @@ li{margin-bottom:.35rem}
 a{color:var(--signal)}
 strong{font-weight:600}
 code{font-family:var(--mono);font-size:.885em;background:#E9ECE7;padding:.1em .35em;border-radius:3px;white-space:nowrap}
+/* inline-code styling above must not leak into code blocks */
+pre code{background:none;padding:0;border-radius:0;white-space:pre;font-size:inherit}
 .glyph{margin:.5rem 0 1.1rem}
 
 /* ---- trigger line ---- */
