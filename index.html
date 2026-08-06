@@ -280,12 +280,26 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
 
   <div class="watch"><b>Watch for</b><code>nums = something</code> rebinds a local name and does nothing to the caller&rsquo;s list. In place means <code>nums[i] = x</code> or <code>nums[:k] = other</code>.</div>
 
+  <p class="slot">Harder variant — Remove Duplicates II (80)</p>
+  <p>Same shape, but each value may appear <strong>up to twice</strong> instead of once. The write condition changes from &ldquo;different from the last kept value&rdquo; to &ldquo;different from the value two slots back&rdquo; — compare <code>nums[read]</code> against <code>nums[write - 2]</code> rather than against a separately tracked previous value.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def removeDuplicates(self, nums):
+    write = 2                        # first two elements are always kept
+
+    for read in range(2, len(nums)):
+        if nums[read] != nums[write - 2]:   # would this break the "at most twice" rule?
+            nums[write] = nums[read]
+            write += 1
+
+    return write</code></pre></div>
+  <p>Comparing two slots back rather than one is the whole trick: it lets a value repeat once (<code>write - 1</code> may equal <code>nums[read]</code>) but blocks a third occurrence (<code>write - 2</code> may not).</p>
+
   <p class="slot">Practice</p>
   <ul class="chips">
     <li><a class="chip lead" href="https://leetcode.com/problems/move-zeroes/"><span class="no">283</span> Move Zeroes</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/remove-duplicates-from-sorted-array/"><span class="no">26</span> Remove Duplicates</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/remove-element/"><span class="no">27</span> Remove Element</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/merge-sorted-array/"><span class="no">88</span> Merge Sorted Array</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/"><span class="no">80</span> Remove Duplicates II</a></li>
   </ul>
 </div>
 </section>
