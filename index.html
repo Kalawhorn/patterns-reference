@@ -82,6 +82,12 @@ code{font-family:var(--mono);font-size:.885em;background:#E9ECE7;padding:.1em .3
 pre code{background:none;padding:0;border-radius:0;white-space:pre;font-size:inherit}
 .glyph{margin:.6rem 0 1rem}
 
+/* ---------- traversal diagram ---------- */
+.diagram{border:1px solid var(--rule);border-radius:8px;background:#FAFBF9;padding:1rem 1rem .8rem;margin:0 0 1.2rem;text-align:center}
+.diagram svg{max-width:100%;height:auto}
+.diagram .cap{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:.55rem}
+.diagram .cap b{color:var(--signal);font-weight:600}
+
 /* slot label — the repeating scaffold that makes cards skimmable */
 .slot{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);
   font-weight:500;margin:1.35rem 0 .45rem}
@@ -125,28 +131,6 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
 .deep-body{padding:.3rem 1.15rem 1rem}
 .deep-body>h3:first-child,.deep-body>h4:first-child{margin-top:1rem}
 
-/* ---------- problem index ---------- */
-.ptable-wrap{border:1px solid var(--rule);border-radius:10px;background:var(--card);overflow-x:auto;margin:0 0 1rem}
-table.ptable{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
-.ptable th{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);
-  text-align:left;font-weight:500;padding:.7rem .9rem;border-bottom:1px solid var(--rule);background:#FAFBF9;
-  cursor:pointer;user-select:none;white-space:nowrap;position:sticky;top:0}
-.ptable th:hover{color:var(--ink)}
-.ptable th .car{opacity:0;margin-left:.35rem}
-.ptable th.sorted .car{opacity:1;color:var(--signal)}
-.ptable td{padding:.5rem .9rem;border-bottom:1px solid var(--rule);vertical-align:baseline}
-.ptable tr:last-child td{border-bottom:none}
-.ptable tbody tr:hover{background:var(--signal-bg)}
-.ptable .c-no{font-family:var(--mono);font-size:12.5px;color:var(--signal);font-weight:600;white-space:nowrap}
-.ptable .c-name a{color:var(--ink);text-decoration:none}
-.ptable .c-name a:hover{text-decoration:underline}
-.ptable .c-pat a{font-family:var(--mono);font-size:12px;color:var(--muted);text-decoration:none;white-space:nowrap}
-.ptable .c-pat a:hover{color:var(--signal)}
-.ptable .c-flag{text-align:center;width:3.2rem}
-.star{color:var(--signal)}
-.dot{color:var(--warn);font-size:15px;line-height:1}
-.legend{font-size:13.5px;color:var(--muted);margin:0 0 1.5rem}
-.legend b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:500}
 
 /* ---------- misc ---------- */
 .plist{columns:2;column-gap:2rem;font-size:14.5px;margin:0 0 1.4rem;padding-left:1.1rem}
@@ -190,8 +174,6 @@ table.ptable{border-collapse:collapse;width:100%;font-size:14px;min-width:520px}
   <a href="#answer">On the answer</a>
   <a href="#bfs">BFS</a>
   <a href="#dfs">DFS</a>
-  <h4>Index</h4>
-  <a href="#index">All problems</a>
   <h4>Prep</h4>
   <a href="#microsoft">Microsoft focus</a>
   <h4>Python</h4>
@@ -605,17 +587,17 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def search(self, nums, target):
     left, right = 0, len(nums) - 1
 
-    while left &lt;= right:
-        mid = (left + right) // 2
+    while left &lt;= right:              # &lt;= : a single remaining element still counts
+        mid = (left + right) // 2     # midpoint of the current range
 
         if nums[mid] == target:
-            return mid
+            return mid                 # found it
         elif nums[mid] &lt; target:
-            left = mid + 1
+            left = mid + 1             # target is to the right - drop the left half
         else:
-            right = mid - 1
+            right = mid - 1            # target is to the left - drop the right half
 
-    return -1</code></pre></div>
+    return -1                          # range shrank to nothing without a match</code></pre></div>
 
   <div class="watch"><b>The two bugs that cause most failures</b><code>left &lt;= right</code>, not <code>&lt;</code> — with <code>&lt;</code> you miss the case where one element remains. And <code>mid + 1</code> / <code>mid - 1</code>, not <code>mid</code> — using <code>mid</code> stops the range shrinking and loops forever.</div>
 
@@ -640,13 +622,13 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
   <p class="slot">Template — Find First and Last Position (34)</p>
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def findFirst(nums, target):
     left, right = 0, len(nums) - 1
-    result = -1
+    result = -1                  # best match found so far, or -1
 
     while left &lt;= right:
         mid = (left + right) // 2
         if nums[mid] == target:
-            result = mid
-            right = mid - 1      # found one, but look further left
+            result = mid          # record the hit...
+            right = mid - 1       # ...but don't stop - keep searching left for an earlier one
         elif nums[mid] &lt; target:
             left = mid + 1
         else:
@@ -681,15 +663,15 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
         if nums[mid] == target:
             return mid
 
-        if nums[left] &lt;= nums[mid]:              # left half is sorted
-            if nums[left] &lt;= target &lt; nums[mid]:
+        if nums[left] &lt;= nums[mid]:              # left half [left..mid] is sorted
+            if nums[left] &lt;= target &lt; nums[mid]:  # target falls inside that sorted half
                 right = mid - 1
-            else:
+            else:                                  # target must be in the other half
                 left = mid + 1
-        else:                                    # right half is sorted
-            if nums[mid] &lt; target &lt;= nums[right]:
+        else:                                    # otherwise right half [mid..right] is sorted
+            if nums[mid] &lt; target &lt;= nums[right]:  # target falls inside that sorted half
                 left = mid + 1
-            else:
+            else:                                  # target must be in the other half
                 right = mid - 1
 
     return -1</code></pre></div>
@@ -713,19 +695,19 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
 
   <p class="slot">Template — Koko Eating Bananas (875)</p>
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def minEatingSpeed(self, piles, h):
-    def hours(speed):
+    def hours(speed):                              # hours needed to clear every pile at this speed
         return sum((p + speed - 1) // speed for p in piles)
 
-    left, right = 1, max(piles)
+    left, right = 1, max(piles)   # slowest possible / fastest-ever-needed speed
 
     while left &lt; right:
         mid = (left + right) // 2
         if hours(mid) &lt;= h:
-            right = mid          # works, try smaller
+            right = mid          # this speed works - try slower
         else:
-            left = mid + 1       # too slow
+            left = mid + 1       # too slow to finish in time - go faster
 
-    return left</code></pre></div>
+    return left                  # left == right: the smallest speed that still works</code></pre></div>
 
   <div class="watch"><b>Different template</b>This one uses <code>left &lt; right</code> and returns <code>left</code> — the convergence form, used when you&rsquo;re finding a boundary rather than an exact match. <code>(p + speed - 1) // speed</code> is integer division rounding up.</div>
 
@@ -746,21 +728,49 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
   <p class="slot">The move</p>
   <p>Uses a <strong>queue</strong>. Explores everything one step away, then everything two steps away — so the first time you reach a target, you got there by the shortest route.</p>
 
+  <div class="diagram">
+    <svg viewBox="0 0 300 150" width="300" height="150" role="img" aria-label="BFS visits a tree one full level at a time, root first, then both children, then all four grandchildren">
+      <line x1="20" y1="42" x2="280" y2="42" stroke="#DCE0DA" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="20" y1="87" x2="280" y2="87" stroke="#DCE0DA" stroke-width="1" stroke-dasharray="3 3"/>
+      <text x="8" y="25" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8A9196">L0</text>
+      <text x="8" y="70" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8A9196">L1</text>
+      <text x="8" y="115" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8A9196">L2</text>
+      <g stroke="#DCE0DA" stroke-width="1.4">
+        <line x1="150" y1="20" x2="85" y2="65"/>
+        <line x1="150" y1="20" x2="215" y2="65"/>
+        <line x1="85" y1="65" x2="45" y2="110"/>
+        <line x1="85" y1="65" x2="120" y2="110"/>
+        <line x1="215" y1="65" x2="180" y2="110"/>
+        <line x1="215" y1="65" x2="255" y2="110"/>
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" text-anchor="middle">
+        <circle cx="150" cy="20" r="13" fill="#2C6B58"/><text x="150" y="24" fill="#fff">1</text>
+        <circle cx="85" cy="65" r="13" fill="#6FA98D"/><text x="85" y="69" fill="#fff">2</text>
+        <circle cx="215" cy="65" r="13" fill="#6FA98D"/><text x="215" y="69" fill="#fff">3</text>
+        <circle cx="45" cy="110" r="13" fill="#BFE0D1"/><text x="45" y="114" fill="#15181B">4</text>
+        <circle cx="120" cy="110" r="13" fill="#BFE0D1"/><text x="120" y="114" fill="#15181B">5</text>
+        <circle cx="180" cy="110" r="13" fill="#BFE0D1"/><text x="180" y="114" fill="#15181B">6</text>
+        <circle cx="255" cy="110" r="13" fill="#BFE0D1"/><text x="255" y="114" fill="#15181B">7</text>
+      </g>
+    </svg>
+    <p class="cap">Level order: <b>root</b> → both children → all four grandchildren. One full row finishes before the next starts.</p>
+  </div>
+
   <p class="slot">Template — grid traversal</p>
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>from collections import deque
 
 def bfs(grid, start):
-    q = deque([start])
-    seen = {start}
+    q = deque([start])     # cells waiting to be explored, in discovery order
+    seen = {start}         # cells already enqueued, so we don't add them twice
 
     while q:
-        r, c = q.popleft()
+        r, c = q.popleft()               # oldest-enqueued cell first - what makes it BFS
 
-        for dr, dc in ((0,1), (0,-1), (1,0), (-1,0)):
+        for dr, dc in ((0,1), (0,-1), (1,0), (-1,0)):   # the four neighbours
             nr, nc = r + dr, c + dc
             if 0 &lt;= nr &lt; len(grid) and 0 &lt;= nc &lt; len(grid[0]) \
                     and (nr, nc) not in seen and grid[nr][nc] == "1":
-                seen.add((nr, nc))
+                seen.add((nr, nc))       # mark seen at enqueue time, not dequeue time
                 q.append((nr, nc))</code></pre></div>
 
   <div class="watch"><b>Watch for</b>Use <code>deque</code> and <code>popleft()</code>, not a list and <code>pop(0)</code> — the latter is O(n) per removal. And mark cells as seen when you <em>enqueue</em> them, not when you dequeue, or you&rsquo;ll add duplicates.</div>
@@ -776,14 +786,14 @@ def bfs(grid, start):
 
     while q:
         level = []
-        for _ in range(len(q)):          # snapshot this level's size
+        for _ in range(len(q)):          # snapshot this level's size before adding the next one
             node = q.popleft()
             level.append(node.val)
             if node.left:
-                q.append(node.left)
+                q.append(node.left)       # children go on the queue - visited next level
             if node.right:
                 q.append(node.right)
-        result.append(level)
+        result.append(level)              # one finished level
 
     return result</code></pre></div>
   <p><code>for _ in range(len(q))</code> captures the level&rsquo;s size before you start adding the next level. That&rsquo;s the whole trick.</p>
@@ -808,18 +818,55 @@ def bfs(grid, start):
   <p class="slot">The move</p>
   <p>Uses <strong>recursion</strong> — the call stack is your stack. Goes as deep as possible, then backs up.</p>
 
+  <div class="diagram">
+    <svg viewBox="0 0 300 150" width="300" height="150" role="img" aria-label="DFS dives down one branch to a leaf, backtracks, then dives down the next branch">
+      <defs>
+        <marker id="dfsArrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#9E4420" stroke-width="1.3"/></marker>
+      </defs>
+      <g stroke="#DCE0DA" stroke-width="1.4">
+        <line x1="150" y1="20" x2="85" y2="65"/>
+        <line x1="150" y1="20" x2="215" y2="65"/>
+        <line x1="85" y1="65" x2="45" y2="110"/>
+        <line x1="85" y1="65" x2="120" y2="110"/>
+        <line x1="215" y1="65" x2="180" y2="110"/>
+        <line x1="215" y1="65" x2="255" y2="110"/>
+      </g>
+      <g fill="none" stroke="#9E4420" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#dfsArrow)">
+        <path d="M150 20 L85 65"/>
+        <path d="M85 65 L45 110"/>
+        <path d="M45 110 Q65 88 85 65"/>
+        <path d="M85 65 L120 110"/>
+        <path d="M120 110 Q100 40 150 20"/>
+        <path d="M150 20 L215 65"/>
+        <path d="M215 65 L180 110"/>
+        <path d="M180 110 Q200 88 215 65"/>
+        <path d="M215 65 L255 110"/>
+      </g>
+      <g font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" text-anchor="middle">
+        <circle cx="150" cy="20" r="13" fill="#2C6B58"/><text x="150" y="24" fill="#fff">1</text>
+        <circle cx="85" cy="65" r="13" fill="#2C6B58"/><text x="85" y="69" fill="#fff">2</text>
+        <circle cx="215" cy="65" r="13" fill="#2C6B58"/><text x="215" y="69" fill="#fff">5</text>
+        <circle cx="45" cy="110" r="13" fill="#2C6B58"/><text x="45" y="114" fill="#fff">3</text>
+        <circle cx="120" cy="110" r="13" fill="#2C6B58"/><text x="120" y="114" fill="#fff">4</text>
+        <circle cx="180" cy="110" r="13" fill="#2C6B58"/><text x="180" y="114" fill="#fff">6</text>
+        <circle cx="255" cy="110" r="13" fill="#2C6B58"/><text x="255" y="114" fill="#fff">7</text>
+      </g>
+    </svg>
+    <p class="cap">Visit order: <b>1 → 2 → 3</b>, dead end, back to 2, <b>→ 4</b>, back to 1, <b>→ 5 → 6</b>, back to 5, <b>→ 7</b>.</p>
+  </div>
+
   <p class="slot">Template — grid flood fill</p>
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def dfs(grid, r, c):
     if r &lt; 0 or r &gt;= len(grid) or c &lt; 0 or c &gt;= len(grid[0]):
-        return
+        return                        # base case: fell off the grid
     if grid[r][c] != "1":
-        return
+        return                        # base case: water, or already visited
 
-    grid[r][c] = "0"                 # mark visited
+    grid[r][c] = "0"                 # mark visited before recursing, or this loops forever
 
-    dfs(grid, r + 1, c)
-    dfs(grid, r - 1, c)
-    dfs(grid, r, c + 1)
+    dfs(grid, r + 1, c)               # go deep down each neighbour in turn...
+    dfs(grid, r - 1, c)               # ...each call fully finishes (backtracks)
+    dfs(grid, r, c + 1)               # ...before the next one starts
     dfs(grid, r, c - 1)</code></pre></div>
   <p>Every DFS opens with base cases: out of bounds, already visited, or wrong value. Miss one and you recurse forever.</p>
 
@@ -827,8 +874,9 @@ def bfs(grid, start):
   <p>The base case is just <code>if not node: return</code>.</p>
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def maxDepth(self, root):
     if not root:
-        return 0
-    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))</code></pre></div>
+        return 0                                              # base case: past a leaf
+    return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+    #      ^ this node          ^ deepest of the two subtrees, found on the way back up</code></pre></div>
   <p>The recursive calls return values that get combined on the way back up — the same build-on-the-unwind behaviour as constructing a BST from a sorted array (108).</p>
 
   <div class="trigger"><b>BFS or DFS?</b>Shortest path calls for BFS. Anything else on a tree or grid, DFS is usually shorter to write.</div>
@@ -845,32 +893,7 @@ def bfs(grid, start):
 </div>
 </section>
 
-<p class="part">Part three — problem index</p>
-
-<section id="index">
-<div class="card">
-  <div class="card-hd"><h2>Every problem on this page</h2></div>
-  <p>Click a column heading to sort. The <span class="star">&#9733;</span> problems are the worked templates above — do those first.</p>
-  <div class="ptable-wrap">
-    <table class="ptable">
-      <thead>
-        <tr>
-          <th data-sort="no">#<span class="car">&#9650;</span></th>
-          <th data-sort="name">Problem<span class="car">&#9650;</span></th>
-          <th data-sort="pat">Pattern<span class="car">&#9650;</span></th>
-          <th data-sort="core" class="c-flag">&#9733;<span class="car">&#9650;</span></th>
-          <th data-sort="ms" class="c-flag">MS<span class="car">&#9650;</span></th>
-        </tr>
-      </thead>
-      <tbody id="pbody"></tbody>
-    </table>
-  </div>
-  <p class="legend"><b>Key</b> &nbsp;<span class="star">&#9733;</span> worked template on this page &nbsp;·&nbsp; <span class="dot">&bull;</span> commonly reported in Microsoft interviews</p>
-  <noscript><p class="note">This table is built by a small script — enable JavaScript to see it. Every problem also appears as a chip inside its pattern card above.</p></noscript>
-</div>
-</section>
-
-<p class="part">Part four — Microsoft focus</p>
+<p class="part">Part three — Microsoft focus</p>
 
 <section id="microsoft">
 <div class="card">
@@ -913,7 +936,7 @@ def bfs(grid, start):
 </div>
 </section>
 
-<p class="part">Part five — Python glossary</p>
+<p class="part">Part four — Python glossary</p>
 
 <div class="gloss">
 <section id="g-lists">
@@ -1053,126 +1076,7 @@ if not node            # True for None - the base case in most recursion</code><
 </main>
 </div>
 <script>
-/* ============================================================
-   PROBLEM INDEX
-   To add a problem, append a row to PROBLEMS:
-   [number, title, leetcode-slug, pattern label, anchor, microsoft?, template?]
-   ============================================================ */
-var PROBLEMS = [
-  [1,"Two Sum","two-sum","Hash map","hash",1,1],
-  [2,"Add Two Numbers","add-two-numbers","Linked list","microsoft",1,0],
-  [3,"Longest Substring Without Repeating","longest-substring-without-repeating-characters","Sliding window","window",1,1],
-  [4,"Median of Two Sorted Arrays","median-of-two-sorted-arrays","Binary search","binary",1,0],
-  [5,"Longest Palindromic Substring","longest-palindromic-substring","Two pointers","two-pointers",1,0],
-  [8,"String to Integer (atoi)","string-to-integer-atoi","Strings","g-str",1,0],
-  [11,"Container With Most Water","container-with-most-water","Two pointers","two-pointers",1,0],
-  [15,"3Sum","3sum","Two pointers","two-pointers",1,0],
-  [20,"Valid Parentheses","valid-parentheses","Stack","stack",1,1],
-  [21,"Merge Two Sorted Lists","merge-two-sorted-lists","Linked list","microsoft",1,0],
-  [26,"Remove Duplicates from Sorted Array","remove-duplicates-from-sorted-array","Read / write","read-write",0,0],
-  [27,"Remove Element","remove-element","Read / write","read-write",0,0],
-  [33,"Search in Rotated Sorted Array","search-in-rotated-sorted-array","Binary search","rotated",1,1],
-  [34,"Find First and Last Position","find-first-and-last-position-of-element-in-sorted-array","Binary search","boundary",1,1],
-  [48,"Rotate Image","rotate-image","Matrix","microsoft",1,0],
-  [49,"Group Anagrams","group-anagrams","Hash map","hash",1,0],
-  [54,"Spiral Matrix","spiral-matrix","Matrix","microsoft",1,0],
-  [56,"Merge Intervals","merge-intervals","Sorting","microsoft",1,0],
-  [73,"Set Matrix Zeroes","set-matrix-zeroes","Matrix","microsoft",1,0],
-  [84,"Largest Rectangle in Histogram","largest-rectangle-in-histogram","Stack","stack",0,0],
-  [88,"Merge Sorted Array","merge-sorted-array","Read / write","read-write",1,0],
-  [98,"Validate Binary Search Tree","validate-binary-search-tree","DFS","dfs",1,0],
-  [102,"Binary Tree Level Order Traversal","binary-tree-level-order-traversal","BFS","bfs",1,1],
-  [104,"Maximum Depth of Binary Tree","maximum-depth-of-binary-tree","DFS","dfs",0,1],
-  [108,"Convert Sorted Array to BST","convert-sorted-array-to-binary-search-tree","DFS","dfs",0,0],
-  [112,"Path Sum","path-sum","DFS","dfs",0,0],
-  [121,"Best Time to Buy and Sell Stock","best-time-to-buy-and-sell-stock","Sliding window","window",1,0],
-  [125,"Valid Palindrome","valid-palindrome","Two pointers","two-pointers",0,1],
-  [127,"Word Ladder","word-ladder","BFS","bfs",0,0],
-  [128,"Longest Consecutive Sequence","longest-consecutive-sequence","Hash map","hash",0,0],
-  [138,"Copy List with Random Pointer","copy-list-with-random-pointer","Linked list","microsoft",1,0],
-  [146,"LRU Cache","lru-cache","Hash map","hash",1,0],
-  [155,"Min Stack","min-stack","Stack","stack",1,0],
-  [167,"Two Sum II","two-sum-ii-input-array-is-sorted","Two pointers","two-pointers",0,0],
-  [189,"Rotate Array","rotate-array","Read / write","read-write",1,0],
-  [200,"Number of Islands","number-of-islands","BFS / DFS","dfs",1,0],
-  [205,"Isomorphic Strings","isomorphic-strings","Hash map","hash",0,0],
-  [206,"Reverse Linked List","reverse-linked-list","Linked list","microsoft",1,0],
-  [207,"Course Schedule","course-schedule","DFS","dfs",0,0],
-  [209,"Minimum Size Subarray Sum","minimum-size-subarray-sum","Sliding window","window",0,0],
-  [217,"Contains Duplicate","contains-duplicate","Hash map","hash",0,0],
-  [224,"Basic Calculator","basic-calculator","Stack","stack",1,0],
-  [226,"Invert Binary Tree","invert-binary-tree","DFS","dfs",0,0],
-  [236,"Lowest Common Ancestor","lowest-common-ancestor-of-a-binary-tree","DFS","dfs",1,0],
-  [238,"Product of Array Except Self","product-of-array-except-self","Prefix sum","prefix",0,0],
-  [242,"Valid Anagram","valid-anagram","Hash map","hash",0,0],
-  [249,"Group Shifted Strings","group-shifted-strings","Hash map","hash",0,0],
-  [283,"Move Zeroes","move-zeroes","Read / write","read-write",0,1],
-  [290,"Word Pattern","word-pattern","Hash map","hash",0,0],
-  [297,"Serialize and Deserialize Binary Tree","serialize-and-deserialize-binary-tree","DFS","dfs",1,0],
-  [303,"Range Sum Query","range-sum-query-immutable","Prefix sum","prefix",0,0],
-  [344,"Reverse String","reverse-string","Two pointers","two-pointers",0,0],
-  [383,"Ransom Note","ransom-note","Hash map","hash",0,0],
-  [424,"Longest Repeating Character Replacement","longest-repeating-character-replacement","Sliding window","window",0,0],
-  [560,"Subarray Sum Equals K","subarray-sum-equals-k","Prefix sum","prefix",0,1],
-  [609,"Find Duplicate File in System","find-duplicate-file-in-system","Hash map","hash",0,0],
-  [704,"Binary Search","binary-search","Binary search","binary",0,1],
-  [739,"Daily Temperatures","daily-temperatures","Stack","stack",1,0],
-  [875,"Koko Eating Bananas","koko-eating-bananas","Binary search","answer",0,1],
-  [994,"Rotting Oranges","rotting-oranges","BFS","bfs",0,0]
-];
-
 (function(){
-  /* ---- render + sort the problem index ---- */
-  var body = document.getElementById('pbody');
-  if(body){
-    var state = {key:'no', dir:1};
-
-    function render(){
-      var rows = PROBLEMS.slice().sort(function(a,b){
-        var x, y;
-        switch(state.key){
-          case 'name': x = a[1].toLowerCase(); y = b[1].toLowerCase(); break;
-          case 'pat':  x = a[3]; y = b[3]; break;
-          case 'core': x = a[6]; y = b[6]; break;
-          case 'ms':   x = a[5]; y = b[5]; break;
-          default:     x = a[0]; y = b[0];
-        }
-        if(x < y) return -1 * state.dir;
-        if(x > y) return  1 * state.dir;
-        return a[0] - b[0];               // stable tiebreak on number
-      });
-
-      var html = '';
-      rows.forEach(function(p){
-        html += '<tr>'
-          + '<td class="c-no">' + p[0] + '</td>'
-          + '<td class="c-name"><a href="https://leetcode.com/problems/' + p[2] + '/">' + p[1] + '</a></td>'
-          + '<td class="c-pat"><a href="#' + p[4] + '">' + p[3] + '</a></td>'
-          + '<td class="c-flag">' + (p[6] ? '<span class="star">&#9733;</span>' : '') + '</td>'
-          + '<td class="c-flag">' + (p[5] ? '<span class="dot">&bull;</span>' : '') + '</td>'
-          + '</tr>';
-      });
-      body.innerHTML = html;
-
-      document.querySelectorAll('.ptable th').forEach(function(th){
-        var on = th.dataset.sort === state.key;
-        th.classList.toggle('sorted', on);
-        th.querySelector('.car').innerHTML = state.dir === 1 ? '&#9650;' : '&#9660;';
-      });
-    }
-
-    document.querySelectorAll('.ptable th').forEach(function(th){
-      th.addEventListener('click', function(){
-        var k = th.dataset.sort;
-        if(state.key === k){ state.dir *= -1; }
-        // flags are most useful showing the marked rows first
-        else { state.key = k; state.dir = (k === 'core' || k === 'ms') ? -1 : 1; }
-        render();
-      });
-    });
-    render();
-  }
-
   /* ---- syntax highlighting ---- */
   var KW = /\b(def|return|if|elif|else|for|while|in|not|and|or|None|True|False|import|from|class|lambda|break|continue|pass|is|yield|with|as|try|except|global)\b/g;
   var BUILT = /\b(len|range|enumerate|sorted|reversed|set|dict|list|tuple|str|int|max|min|sum|abs|zip|any|all|ord|chr|print|frozenset|deque|defaultdict|Counter)\b/g;
