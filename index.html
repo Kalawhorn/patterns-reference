@@ -167,6 +167,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a href="#hash"><span class="idx">[3]</span>Hash map</a>
   <a href="#prefix"><span class="idx">[4]</span>Prefix sum</a>
   <a href="#stack"><span class="idx">[5]</span>Stack</a>
+  <a href="#greedy"><span class="idx">[6]</span>Greedy frontier</a>
   <h4>Search</h4>
   <a href="#binary">Binary search</a>
   <a href="#boundary">Boundaries</a>
@@ -200,6 +201,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a class="sig" href="#hash"><span class="sig-q">Seen before, counting, duplicates</span><span class="sig-a">hash map</span></a>
   <a class="sig" href="#prefix"><span class="sig-q">Repeated range sums</span><span class="sig-a">prefix sum</span></a>
   <a class="sig" href="#stack"><span class="sig-q">Matching, nesting, most recent</span><span class="sig-a">stack</span></a>
+  <a class="sig" href="#greedy"><span class="sig-q">&ldquo;Can you reach the end&rdquo;, minimum jumps</span><span class="sig-a">greedy frontier</span></a>
   <a class="sig" href="#binary"><span class="sig-q">Sorted, needs better than O(n)</span><span class="sig-a">binary search</span></a>
   <a class="sig" href="#answer"><span class="sig-q">&ldquo;Minimum speed / smallest capacity&rdquo;</span><span class="sig-a">search the answer</span></a>
   <a class="sig" href="#bfs"><span class="sig-q">Shortest path, level by level</span><span class="sig-a">BFS</span></a>
@@ -581,6 +583,60 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
     <li><a class="chip" href="https://leetcode.com/problems/daily-temperatures/"><span class="no">739</span> Daily Temperatures</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/largest-rectangle-in-histogram/"><span class="no">84</span> Largest Rectangle in Histogram</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/basic-calculator/"><span class="no">224</span> Basic Calculator</a></li>
+  </ul>
+</div>
+</section>
+
+<!-- ============ [6] GREEDY FRONTIER ============ -->
+<section id="greedy">
+<div class="card">
+  <div class="card-hd"><h2><span class="idx">[6]</span>Greedy, running frontier</h2></div>
+  <svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true"><circle cx="10" cy="8" r="2.5" fill="#2C6B58"/><circle cx="34" cy="8" r="2" fill="#C3C9C2"/><circle cx="58" cy="8" r="2" fill="#C3C9C2"/><circle cx="82" cy="8" r="2" fill="#C3C9C2"/><circle cx="106" cy="8" r="2" fill="#C3C9C2"/><circle cx="130" cy="8" r="2" fill="#C3C9C2"/><circle cx="154" cy="8" r="2" fill="#C3C9C2"/><path d="M14 8h140" stroke="#2C6B58" stroke-width="1.2" stroke-dasharray="1 3.4"/><path d="M148 8h6" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a5)"/><defs><marker id="a5" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#2C6B58" stroke-width="1.2"/></marker></defs></svg>
+
+  <div class="trigger"><b>Trigger</b>&ldquo;Can you reach the end&rdquo;, &ldquo;minimum jumps to reach&rdquo; — each position gives you a <em>capability</em> (how far you could go from here), not a value to compare against others.</div>
+
+  <p class="slot">The move</p>
+  <p>Not two pointers — one scanning index, plus <strong>one running value</strong> that summarises every position you&rsquo;ve already passed: the farthest index reachable so far. You never revisit earlier positions or simulate an actual jump, because that running value already carries forward everything worth knowing about them. If the scan ever walks past that frontier, there was no way to have legally arrived there.</p>
+
+  <p class="slot">Template — Jump Game (55)</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def canJump(self, nums):
+    # farthest is the best index we know we can reach so far
+    # if the scan pointer ever gets past farthest, we're stuck
+    farthest = 0
+
+    for i in range(len(nums)):
+        if i &gt; farthest:            # walked past the frontier - no jump got us here
+            return False
+
+        jump = i + nums[i]          # furthest this index could reach, if we chose to jump from it
+        if jump &gt; farthest:
+            farthest = jump          # new frontier - carried forward, never recomputed
+
+    return True                     # scan finished without ever outrunning the frontier</code></pre></div>
+
+  <div class="watch"><b>Watch for</b>A zero in the middle of the array isn&rsquo;t automatically a dead end — it only matters if <em>nothing before it</em> already pushed <code>farthest</code> past it. Don&rsquo;t special-case zeros; the running max handles them for free.</div>
+
+  <p class="slot">Variant — minimum jumps instead of reachability</p>
+  <p>Jump Game II asks for the <em>fewest</em> jumps, not just whether it&rsquo;s possible. Track the current jump&rsquo;s boundary separately from the next jump&rsquo;s frontier, and count a jump only when the scan runs out of room in the current one.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def jump(self, nums):
+    jumps = 0
+    current_end = 0      # farthest reachable using jumps taken so far
+    farthest = 0          # farthest reachable if one more jump is taken
+
+    for i in range(len(nums) - 1):     # never need to jump FROM the last index
+        farthest = max(farthest, i + nums[i])
+
+        if i == current_end:           # exhausted the current jump's range
+            jumps += 1
+            current_end = farthest      # commit to the best option seen during it
+
+    return jumps</code></pre></div>
+
+  <p class="slot">Practice</p>
+  <ul class="chips">
+    <li><a class="chip lead" href="https://leetcode.com/problems/jump-game/"><span class="no">55</span> Jump Game</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/jump-game-ii/"><span class="no">45</span> Jump Game II</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/gas-station/"><span class="no">134</span> Gas Station</a></li>
   </ul>
 </div>
 </section>
