@@ -168,6 +168,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a href="#prefix"><span class="idx">[4]</span>Prefix sum</a>
   <a href="#stack"><span class="idx">[5]</span>Stack</a>
   <a href="#greedy"><span class="idx">[6]</span>Greedy frontier</a>
+  <a href="#linked-list"><span class="idx">[7]</span>Linked list</a>
   <h4>Search</h4>
   <a href="#binary">Binary search</a>
   <a href="#boundary">Boundaries</a>
@@ -202,6 +203,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a class="sig" href="#prefix"><span class="sig-q">Repeated range sums</span><span class="sig-a">prefix sum</span></a>
   <a class="sig" href="#stack"><span class="sig-q">Matching, nesting, most recent</span><span class="sig-a">stack</span></a>
   <a class="sig" href="#greedy"><span class="sig-q">&ldquo;Can you reach the end&rdquo;, minimum jumps</span><span class="sig-a">greedy frontier</span></a>
+  <a class="sig" href="#linked-list"><span class="sig-q">Problem hands you a <code>ListNode</code></span><span class="sig-a">linked list moves</span></a>
   <a class="sig" href="#binary"><span class="sig-q">Sorted, needs better than O(n)</span><span class="sig-a">binary search</span></a>
   <a class="sig" href="#answer"><span class="sig-q">&ldquo;Minimum speed / smallest capacity&rdquo;</span><span class="sig-a">search the answer</span></a>
   <a class="sig" href="#bfs"><span class="sig-q">Shortest path, level by level</span><span class="sig-a">BFS</span></a>
@@ -637,6 +639,144 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
     <li><a class="chip lead" href="https://leetcode.com/problems/jump-game/"><span class="no">55</span> Jump Game</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/jump-game-ii/"><span class="no">45</span> Jump Game II</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/gas-station/"><span class="no">134</span> Gas Station</a></li>
+  </ul>
+</div>
+</section>
+
+<!-- ============ [7] LINKED LIST ============ -->
+<section id="linked-list">
+<div class="card">
+  <div class="card-hd"><h2><span class="idx">[7]</span>Linked list operations</h2></div>
+  <svg class="glyph" width="180" height="16" viewBox="0 0 180 16" aria-hidden="true">
+    <rect x="6" y="1" width="24" height="14" rx="3" fill="#E4EFEA" stroke="#2C6B58"/>
+    <path d="M32 8h14" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a6)"/>
+    <rect x="48" y="1" width="24" height="14" rx="3" fill="#E4EFEA" stroke="#2C6B58"/>
+    <path d="M74 8h14" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a6)"/>
+    <rect x="90" y="1" width="24" height="14" rx="3" fill="#E4EFEA" stroke="#2C6B58"/>
+    <path d="M116 8h14" stroke="#2C6B58" stroke-width="1.2" marker-end="url(#a6)"/>
+    <rect x="132" y="1" width="24" height="14" rx="3" fill="#E4EFEA" stroke="#2C6B58"/>
+    <path d="M158 8h12" stroke="#9E4420" stroke-width="1.2" stroke-dasharray="2 2"/>
+    <text x="170" y="12" font-family="IBM Plex Mono, monospace" font-size="10" fill="#9E4420">&Oslash;</text>
+    <defs><marker id="a6" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1L6 4L1 7" fill="none" stroke="#2C6B58" stroke-width="1.2"/></marker></defs>
+  </svg>
+
+  <div class="trigger"><b>Trigger</b>The problem hands you a <code>ListNode</code> instead of an array — anything with a <code>.next</code>.</div>
+
+  <p class="slot">Before you write anything</p>
+  <p>You&rsquo;re always given: <code>class ListNode: def __init__(self, val=0, next=None): self.val, self.next = val, next</code>. Three moves cover almost every problem — name which one you&rsquo;re in before coding.</p>
+
+  <h4>One — dummy head</h4>
+  <p>When the head itself might get removed or replaced, point a fake node at it so every real node — including the first — gets handled by the same code path. No special case for &ldquo;what if we&rsquo;re deleting index 0.&rdquo;</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>dummy = ListNode(next=head)   # dummy.next always points at the current true head
+prev = dummy
+# ... walk `prev` and delete/insert after it, same code whether or not head changes ...
+return dummy.next              # not head - head may have been removed</code></pre></div>
+
+  <h4>Two — fast / slow runner</h4>
+  <p>Two pointers into the <em>same</em> list, moving at different speeds. Fast moving twice as fast as slow means: when fast finishes, slow is at the midpoint. If the list has a cycle, fast eventually laps slow and they meet.</p>
+
+  <h4>Three — reversal triple: prev, curr, next</h4>
+  <p>Reversing links in place means you overwrite <code>curr.next</code> — so you must save where it pointed <em>before</em> you overwrite it, or the rest of the list is unreachable.</p>
+
+  <p class="slot">Template — Reverse Linked List (206)</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def reverseList(self, head):
+    prev = None
+    curr = head
+
+    while curr:
+        next_node = curr.next   # save it - about to overwrite curr.next
+        curr.next = prev        # reverse this link
+        prev = curr              # advance both pointers
+        curr = next_node
+
+    return prev                 # prev ends on the old tail - the new head</code></pre></div>
+
+  <div class="watch"><b>Watch for</b>Reading <code>curr.next</code> after reversing it reads your own new value, not the original next node. Save <code>next_node</code> first, every time, no exceptions.</div>
+
+  <p class="slot">Template — fast / slow runner</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def middleNode(self, head):        # 876 - find the middle
+    slow = fast = head
+
+    while fast and fast.next:      # fast needs 2 steps left, or stop
+        slow = slow.next            # 1 step
+        fast = fast.next.next       # 2 steps
+
+    return slow                    # fast ran out first - slow is at the middle
+
+def hasCycle(self, head):          # 141 - detect a cycle
+    slow = fast = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:            # they met - only possible inside a loop
+            return True
+
+    return False                   # fast hit the end - no cycle</code></pre></div>
+
+  <div class="watch"><b>Watch for</b>The loop condition is <code>fast and fast.next</code>, not just <code>fast</code> — you dereference <code>fast.next.next</code> inside the loop, so <code>fast.next</code> must be checked first or you hit an <code>AttributeError</code> on a null.</div>
+
+  <p class="slot">Template — dummy head: Remove Nth From End (19)</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def removeNthFromEnd(self, head, n):
+    dummy = ListNode(next=head)
+    fast = slow = dummy
+
+    for _ in range(n):
+        fast = fast.next            # push fast n nodes ahead of slow
+
+    while fast.next:                # when fast hits the last node...
+        fast = fast.next
+        slow = slow.next            # ...slow sits right before the node to remove
+
+    slow.next = slow.next.next      # skip over it
+    return dummy.next</code></pre></div>
+  <p>The <code>n</code>-node head start is what converts &ldquo;nth from the end&rdquo; — which needs the length — into a single pass with no length calculation.</p>
+
+  <details class="deep">
+    <summary>Common node operations, and mistakes to check for</summary>
+    <div class="deep-body">
+      <h4>Traverse and collect values</h4>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>vals = []
+node = head
+while node:
+    vals.append(node.val)
+    node = node.next</code></pre></div>
+      <h4>Get the length</h4>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>length = 0
+node = head
+while node:
+    length += 1
+    node = node.next</code></pre></div>
+      <h4>Insert a node after a given node</h4>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>new_node.next = node.next   # point the new node at what comes after `node`...
+node.next = new_node          # ...then splice it in - order matters</code></pre></div>
+      <h4>Delete the node after a given node</h4>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>node.next = node.next.next   # skip over it - nothing points at it anymore, GC'd</code></pre></div>
+      <h4>Losing the rest of the list</h4>
+      <p>The single most common linked-list bug: overwriting <code>.next</code> before reading it.</p>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>curr.next = prev    # WRONG if you haven't saved the old curr.next yet -
+                     # everything after curr is now unreachable
+next_node = curr.next   # save first
+curr.next = prev         # now safe to overwrite</code></pre></div>
+      <h4>Off-by-one with the dummy node</h4>
+      <p><code>dummy.next</code> is the real head. Returning <code>dummy</code> itself returns a node whose <code>.val</code> was never set to anything meaningful.</p>
+      <h4>Checking <code>node.val</code> on a null</h4>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>if node.val == x:     # AttributeError if node is None
+if node and node.val == x:   # correct - short-circuits before the crash</code></pre></div>
+    </div>
+  </details>
+
+  <p class="slot">Practice</p>
+  <ul class="chips">
+    <li><a class="chip lead" href="https://leetcode.com/problems/reverse-linked-list/"><span class="no">206</span> Reverse Linked List</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/merge-two-sorted-lists/"><span class="no">21</span> Merge Two Sorted Lists</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/linked-list-cycle/"><span class="no">141</span> Linked List Cycle</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/middle-of-the-linked-list/"><span class="no">876</span> Middle of the Linked List</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/remove-nth-node-from-end-of-list/"><span class="no">19</span> Remove Nth From End</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/add-two-numbers/"><span class="no">2</span> Add Two Numbers</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/reorder-list/"><span class="no">143</span> Reorder List</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/palindrome-linked-list/"><span class="no">234</span> Palindrome Linked List</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/copy-list-with-random-pointer/"><span class="no">138</span> Copy List with Random Pointer</a></li>
   </ul>
 </div>
 </section>
