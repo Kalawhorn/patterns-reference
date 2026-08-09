@@ -177,6 +177,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a href="#answer">On the answer</a>
   <a href="#bfs">BFS</a>
   <a href="#dfs">DFS</a>
+  <a href="#tree-recursion">Tree recursion</a>
   <h4>Prep</h4>
   <a href="#microsoft">Microsoft focus</a>
   <h4>Debug</h4>
@@ -211,6 +212,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a class="sig" href="#answer"><span class="sig-q">&ldquo;Minimum speed / smallest capacity&rdquo;</span><span class="sig-a">search the answer</span></a>
   <a class="sig" href="#bfs"><span class="sig-q">Shortest path, level by level</span><span class="sig-a">BFS</span></a>
   <a class="sig" href="#dfs"><span class="sig-q">Every path, connected regions</span><span class="sig-a">DFS</span></a>
+  <a class="sig" href="#tree-recursion"><span class="sig-q">Depth, validity, or an ancestor of a tree</span><span class="sig-a">tree recursion</span></a>
 </div>
 
 <p><strong>Two shortcuts that hold up often.</strong> Sorted input usually means two pointers or binary search. The word &ldquo;contiguous&rdquo; usually means sliding window.</p>
@@ -298,7 +300,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
             write += 1
 
     return write</code></pre></div>
-  <p>Comparing two slots back rather than one is the whole trick: it lets a value repeat once (<code>write - 1</code> may equal <code>nums[read]</code>) but blocks a third occurrence (<code>write - 2</code> may not).</p>
+  <p>Comparing two slots back rather than one is the whole trick: it lets a value repeat once (<code>nums[write - 1]</code> may equal <code>nums[read]</code>) but blocks a third occurrence (<code>nums[write - 2]</code> may not).</p>
 
   <p class="slot">Practice</p>
   <ul class="chips">
@@ -1233,6 +1235,134 @@ def bfs(grid, start):
     <li><a class="chip" href="https://leetcode.com/problems/path-sum/"><span class="no">112</span> Path Sum</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/"><span class="no">108</span> Sorted Array to BST</a></li>
+  </ul>
+</div>
+</section>
+
+<!-- ============ TREE RECURSION ============ -->
+<section id="tree-recursion">
+<div class="card">
+  <div class="card-hd"><h2>Tree recursion — one shape, many problems</h2></div>
+
+  <div class="trigger"><b>Trigger</b>Anything on a binary tree that isn&rsquo;t level-order. Trees, tries, and BSTs are heavily weighted at Microsoft.</div>
+
+  <p class="slot">The shape</p>
+  <p>Almost every tree problem is this skeleton. <strong>Only two lines ever change</strong> — the base case and the combine step. Write the skeleton first, then fill in those two.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def solve(node):
+    if not node:                  # BASE CASE - what does an empty tree answer?
+        return identity
+
+    left = solve(node.left)       # trust the recursion: both subtrees come back solved
+    right = solve(node.right)
+
+    return combine(left, right, node.val)   # COMBINE on the way back up</code></pre></div>
+  <p>The hard part is psychological, not technical: you have to <strong>trust that <code>solve(node.left)</code> already works</strong> and just use its answer. Don&rsquo;t trace the whole recursion in your head — decide what the two subtree answers mean, and how to merge them with this node.</p>
+
+  <p class="slot">Template — Maximum Depth (104)</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def maxDepth(self, root):
+    if not root:
+        return 0                          # an empty tree has depth 0
+
+    left_depth = self.maxDepth(root.left)
+    right_depth = self.maxDepth(root.right)
+
+    return 1 + max(left_depth, right_depth)   # this node, plus the deeper side</code></pre></div>
+  <p>Naming the two results rather than nesting the calls inline is worth the extra lines — it makes the &ldquo;solve both, then combine&rdquo; shape visible, and it&rsquo;s where you&rsquo;d put a print statement when debugging.</p>
+
+  <p class="slot">Same skeleton, different two lines</p>
+  <p>Read these as variations on the template above — the traversal never changes.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># Count nodes                     base: 0        combine: 1 + left + right
+return 1 + left + right
+
+# Invert Binary Tree (226)        base: None     combine: swap the children
+root.left, root.right = right, left
+return root
+
+# Balanced Binary Tree (110)      base: 0        return -1 to signal "unbalanced"
+if left == -1 or right == -1 or abs(left - right) &gt; 1:
+    return -1
+return 1 + max(left, right)
+
+# Same Tree (100)                 two trees walked in lockstep
+if not p and not q:  return True
+if not p or not q:   return False
+return p.val == q.val and same(p.left, q.left) and same(p.right, q.right)</code></pre></div>
+
+  <p class="slot">Two directions of information</p>
+  <p>This is the distinction that decides how you write a tree problem. Ask it before coding.</p>
+  <h4>Bottom-up — answers flow back up</h4>
+  <p>The default, and everything above. Each node needs its children&rsquo;s answers. No extra parameters.</p>
+  <h4>Top-down — constraints flow down</h4>
+  <p>When a node&rsquo;s validity depends on its <em>ancestors</em>, you can&rsquo;t learn that from its children — you must carry it down as arguments. Validate BST is the classic: checking <code>left.val &lt; node.val &lt; right.val</code> locally is <strong>wrong</strong>, because every node in the left subtree must be below the ancestor, not just the immediate parent.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def isValidBST(self, root):
+    def check(node, low, high):        # the allowed range, narrowed on the way down
+        if not node:
+            return True                 # empty tree is a valid BST
+
+        if not (low &lt; node.val &lt; high):
+            return False                # violates a bound set by some ancestor
+
+        return (check(node.left,  low, node.val) and    # left subtree: cap at this node
+                check(node.right, node.val, high))      # right subtree: floor at this node
+
+    return check(root, float("-inf"), float("inf"))</code></pre></div>
+
+  <div class="watch"><b>Watch for</b>If a problem&rsquo;s answer depends on the path <em>from the root</em> (running sum, allowed range, depth so far), it&rsquo;s top-down — add a parameter. If it depends on what&rsquo;s <em>below</em> (height, count, subtree sums), it&rsquo;s bottom-up — return a value. Getting this backwards is why Validate BST catches people.</div>
+
+  <p class="slot">Template — Lowest Common Ancestor (236)</p>
+  <p>Worth memorising; it comes up at Microsoft and the code is shorter than the explanation.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def lowestCommonAncestor(self, root, p, q):
+    if not root or root is p or root is q:
+        return root                # found one of them, or ran off the tree
+
+    left = self.lowestCommonAncestor(root.left, p, q)
+    right = self.lowestCommonAncestor(root.right, p, q)
+
+    if left and right:
+        return root                # p and q found on opposite sides - this IS the split point
+    return left or right           # both on one side - pass up whichever found something</code></pre></div>
+  <p>Each call returns &ldquo;what did I find below me&rdquo;. Finding something on both sides can only happen at the node where the two paths diverge, which is the answer by definition.</p>
+
+  <details class="deep">
+    <summary>When one return value isn&rsquo;t enough</summary>
+    <div class="deep-body">
+      <p>Some problems ask for one thing but need another to compute it. Diameter (543) asks for the longest path <em>anywhere</em>, but recursion can only usefully return <em>height</em>. Return the height, and record the answer in an outer variable as you go.</p>
+      <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def diameterOfBinaryTree(self, root):
+    best = 0
+
+    def height(node):
+        nonlocal best
+        if not node:
+            return 0
+
+        left = height(node.left)
+        right = height(node.right)
+
+        best = max(best, left + right)   # path THROUGH this node - the answer candidate
+        return 1 + max(left, right)      # what the PARENT needs - the height
+
+    height(root)
+    return best</code></pre></div>
+      <p><code>nonlocal</code> lets the inner function write to <code>best</code> in the enclosing scope. Without it, <code>best = ...</code> would create a fresh local each call and the updates would vanish. Same structure solves Binary Tree Maximum Path Sum (124).</p>
+      <h4>Mistakes to check for</h4>
+      <p><strong>Forgetting the empty-tree base case.</strong> Every tree function starts with <code>if not node:</code>. Miss it and you get <code>AttributeError: 'NoneType' object has no attribute 'val'</code>.</p>
+      <p><strong>Returning the wrong thing for the parent.</strong> In the diameter pattern, returning <code>best</code> instead of the height breaks every ancestor&rsquo;s calculation. The return value is a contract with the parent; the answer is separate.</p>
+      <p><strong>Using <code>==</code> instead of <code>is</code> for node identity</strong> in LCA — you&rsquo;re asking &ldquo;is this the same node&rdquo;, not &ldquo;same value&rdquo;.</p>
+    </div>
+  </details>
+
+  <p class="slot">Practice</p>
+  <ul class="chips">
+    <li><a class="chip lead" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/"><span class="no">104</span> Maximum Depth</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/invert-binary-tree/"><span class="no">226</span> Invert Binary Tree</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/same-tree/"><span class="no">100</span> Same Tree</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/symmetric-tree/"><span class="no">101</span> Symmetric Tree</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/balanced-binary-tree/"><span class="no">110</span> Balanced Binary Tree</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/diameter-of-binary-tree/"><span class="no">543</span> Diameter of Binary Tree</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/validate-binary-search-tree/"><span class="no">98</span> Validate BST</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"><span class="no">236</span> Lowest Common Ancestor</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/binary-tree-maximum-path-sum/"><span class="no">124</span> Max Path Sum</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"><span class="no">297</span> Serialize and Deserialize</a></li>
   </ul>
 </div>
 </section>
