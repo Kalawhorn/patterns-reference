@@ -665,7 +665,7 @@ defaultdict(int)             # missing key -&gt; 0, so counts[k] += 1 just works
   <div class="trigger"><b>Trigger</b>The problem hands you a <code>ListNode</code> instead of an array — anything with a <code>.next</code>.</div>
 
   <p class="slot">Before you write anything</p>
-  <p>You&rsquo;re always given: <code>class ListNode: def __init__(self, val=0, next=None): self.val, self.next = val, next</code>. Three moves cover almost every problem — name which one you&rsquo;re in before coding.</p>
+  <p>You&rsquo;re always given: <code>class ListNode: def __init__(self, val=0, next=None): self.val, self.next = val, next</code>. Four moves cover almost every problem — name which one you&rsquo;re in before coding.</p>
 
   <h4>One — dummy head</h4>
   <p>When the head itself might get removed or replaced, point a fake node at it so every real node — including the first — gets handled by the same code path. No special case for &ldquo;what if we&rsquo;re deleting index 0.&rdquo;</p>
@@ -679,6 +679,9 @@ return dummy.next              # not head - head may have been removed</code></p
 
   <h4>Three — reversal triple: prev, curr, next</h4>
   <p>Reversing links in place means you overwrite <code>curr.next</code> — so you must save where it pointed <em>before</em> you overwrite it, or the rest of the list is unreachable.</p>
+
+  <h4>Four — two chains, then join</h4>
+  <p>For splitting into groups while preserving order. Append to the tails of two new lists rather than moving nodes around inside the original — see below.</p>
 
   <p class="slot">Template — Reverse Linked List (206)</p>
   <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def reverseList(self, head):
@@ -762,6 +765,42 @@ i -= 1</code></pre></div>
   <h4>Trace the one-element case before submitting</h4>
   <p>Run <code>[1]</code> with <code>n = 1</code> in your head. Empty and single-element inputs catch a disproportionate share of these bugs, because that&rsquo;s exactly where &ldquo;the node before this one&rdquo; stops existing.</p>
 
+  <p class="slot">Build new chains, don&rsquo;t rearrange the old one</p>
+  <div class="trigger"><b>Trigger</b>&ldquo;Partition&rdquo;, &ldquo;group these together&rdquo;, &ldquo;separate odds and evens&rdquo; — <em>preserving relative order</em>.</div>
+  <p>The instinct is to walk the list and splice nodes toward the front. That fails, because <strong>moving a node needs three pointer updates, and you only ever hold two of them</strong> — the node that currently points <em>at</em> the one you&rsquo;re moving is not in your hands. Leave it stale and you fork the list into a cycle.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># moving D to the front, having walked ... C -&gt; D -&gt; E ...
+A.next = D      # A points at D
+D.next = B      # D points at B
+                # but C.next is STILL D  -&gt;  A-&gt;D-&gt;B-&gt;C-&gt;D-&gt;B-&gt;C...  cycle</code></pre></div>
+  <p>Instead: never insert into the middle. Walk once and <strong>append each node to the tail of one of two new chains</strong>, then join them. Appending needs only the tail you already hold, and visiting in order means each chain comes out in order for free.</p>
+
+  <p class="slot">Template — Partition List (86)</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def partition(self, head, x):
+    less_head = ListNode(0)      # dummy for the "&lt; x" chain
+    less_tail = less_head
+
+    more_head = ListNode(0)      # dummy for the "&gt;= x" chain
+    more_tail = more_head
+
+    node = head
+    while node:
+        next_node = node.next    # save it - about to overwrite node.next
+
+        if node.val &lt; x:
+            less_tail.next = node    # append to the tail we already hold
+            less_tail = node
+        else:
+            more_tail.next = node
+            more_tail = node
+
+        node.next = None         # cut it loose from the old list
+        node = next_node
+
+    less_tail.next = more_head.next   # join the two chains
+    return less_head.next             # skip the dummy</code></pre></div>
+
+  <div class="watch"><b>Watch for</b>The second chain must be terminated — if the original tail landed in the <code>&lt; x</code> chain, whatever <code>more_tail.next</code> still points at will drag the old list back in. Setting <code>node.next = None</code> as you detach each node handles this.</div>
+
   <details class="deep">
     <summary>Common node operations, and mistakes to check for</summary>
     <div class="deep-body">
@@ -807,6 +846,9 @@ if node and node.val == x:   # correct - short-circuits before the crash</code><
     <li><a class="chip" href="https://leetcode.com/problems/reorder-list/"><span class="no">143</span> Reorder List</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/palindrome-linked-list/"><span class="no">234</span> Palindrome Linked List</a></li>
     <li><a class="chip" href="https://leetcode.com/problems/copy-list-with-random-pointer/"><span class="no">138</span> Copy List with Random Pointer</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/partition-list/"><span class="no">86</span> Partition List</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/odd-even-linked-list/"><span class="no">328</span> Odd Even Linked List</a></li>
+    <li><a class="chip" href="https://leetcode.com/problems/rotate-list/"><span class="no">61</span> Rotate List</a></li>
   </ul>
 </div>
 </section>
