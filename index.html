@@ -170,6 +170,7 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a href="#greedy"><span class="idx">[6]</span>Greedy frontier</a>
   <a href="#linked-list"><span class="idx">[7]</span>Linked list</a>
   <h4>Search</h4>
+  <a href="#binary-primer">Read this first</a>
   <a href="#binary">Binary search</a>
   <a href="#boundary">Boundaries</a>
   <a href="#rotated">Rotated input</a>
@@ -854,6 +855,67 @@ if node and node.val == x:   # correct - short-circuits before the crash</code><
 </section>
 
 <p class="part">Part two — search algorithms</p>
+
+<!-- ============ BINARY SEARCH PRIMER ============ -->
+<section id="binary-primer">
+<div class="card">
+  <div class="card-hd"><h2>Binary search — read this first</h2></div>
+  <p>Every binary search bug is one of three things: a range that doesn&rsquo;t shrink, a boundary that&rsquo;s off by one, or the wrong template for the question. Settle these four decisions before you type, and the code is mechanical.</p>
+
+  <p class="slot">One — what is actually being searched?</p>
+  <p>Not always an array. Binary search needs a <strong>range</strong> and a <strong>yes/no question whose answer flips exactly once</strong> across it. Sortedness is just the most common way to get that property.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">the search space</span><button class="copy">Copy</button></div><pre><code>indices    0 .. len(nums)-1     # classic: find a value in a sorted array
+answers    1 .. max(piles)      # "minimum speed such that..." - no array at all
+</code></pre></div>
+  <p>The test: walk the range left to right and ask your yes/no question at each point. If the answers read <code>no no no yes yes yes</code> — one flip, never flipping back — binary search applies. If they read <code>no yes no yes</code>, it does not, no matter how sorted the input looks.</p>
+
+  <p class="slot">Two — hold the invariant</p>
+  <p>The one sentence that keeps you honest: <strong>&ldquo;the answer, if it exists, is still inside <code>[left, right]</code>.&rdquo;</strong> That has to be true before the loop and after every single step. When you discard a half, ask: am I certain the answer isn&rsquo;t in there? If you&rsquo;re not certain, you&rsquo;re discarding too much.</p>
+
+  <p class="slot">Three — pick the template from the question</p>
+  <p>There are two, and picking wrong is the most common source of off-by-ones. The question you&rsquo;re answering tells you which.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># "is this exact value present?"   -&gt; exact-match form
+while left &lt;= right:          # &lt;=  so a 1-element range is still checked
+    ...
+    left  = mid + 1           # both sides EXCLUDE mid
+    right = mid - 1
+return -1                     # nothing left to check
+
+# "smallest thing that works" / "first index where..." -&gt; boundary form
+while left &lt; right:           # &lt;   stop when they meet
+    ...
+    right = mid               # mid might BE the answer - keep it
+    left  = mid + 1           # mid definitely isn't - drop it
+return left                   # left == right == the boundary</code></pre></div>
+  <p>The asymmetry is the whole point: <code>right = mid - 1</code> says &ldquo;mid is ruled out&rdquo;; <code>right = mid</code> says &ldquo;mid is still a candidate, I just want to know if something earlier also works.&rdquo; Boundary problems never return from inside the loop — they narrow until one candidate remains.</p>
+
+  <p class="slot">Four — prove the range shrinks</p>
+  <div class="watch"><b>The infinite loop</b><code>mid = (left + right) // 2</code> rounds <em>down</em>, so when <code>right == left + 1</code> you get <code>mid == left</code>. If a branch then does <code>left = mid</code>, nothing changed and it spins forever. Every branch must either move past <code>mid</code> or cut the range on the side that does move.</div>
+
+  <p class="slot">Trace it once</p>
+  <p><code>nums = [1,3,5,7,9,11]</code>, looking for <code>7</code> with the exact-match form:</p>
+  <div class="code"><div class="code-hd"><span class="lbl">trace</span><button class="copy">Copy</button></div><pre><code>left=0 right=5  mid=2  nums[2]=5  &lt; 7  -&gt; left = 3
+left=3 right=5  mid=4  nums[4]=9  &gt; 7  -&gt; right = 3
+left=3 right=3  mid=3  nums[3]=7  == 7 -&gt; return 3
+
+# and for a value that isn't there, 6:
+left=3 right=3  mid=3  nums[3]=7  &gt; 6  -&gt; right = 2
+left=3 right=2                          -&gt; left &gt; right, exit, return -1</code></pre></div>
+  <p>Note the third line: <code>left == right == 3</code>. That single-element range is exactly what <code>&lt;=</code> exists to check, and using <code>&lt;</code> there would skip the answer.</p>
+
+  <p class="slot">Where to start</p>
+  <p>Do them in this order — each adds exactly one new idea to the previous.</p>
+  <ol>
+    <li><a href="https://leetcode.com/problems/binary-search/"><strong>704 Binary Search</strong></a> — the plain template, nothing else. Write it from memory until the <code>&lt;=</code> and the <code>±1</code> are automatic.</li>
+    <li><a href="https://leetcode.com/problems/search-insert-position/"><strong>35 Search Insert Position</strong></a> — same code, but now you return <code>left</code> instead of <code>-1</code> when it&rsquo;s missing. First taste of why <code>left</code> is meaningful at the end.</li>
+    <li><a href="https://leetcode.com/problems/first-bad-version/"><strong>278 First Bad Version</strong></a> — the boundary form, with the &ldquo;flips once&rdquo; property handed to you explicitly. No array to be distracted by.</li>
+    <li><a href="https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/"><strong>34 First and Last Position</strong></a> — boundary form twice, once in each direction.</li>
+    <li><a href="https://leetcode.com/problems/koko-eating-bananas/"><strong>875 Koko Eating Bananas</strong></a> — searching an answer range instead of an array. The jump that makes binary search feel general.</li>
+    <li><a href="https://leetcode.com/problems/search-in-rotated-sorted-array/"><strong>33 Search in Rotated Sorted Array</strong></a> — the Microsoft favourite. Needs everything above plus &ldquo;which half is sorted.&rdquo;</li>
+  </ol>
+  <div class="trigger"><b>Start with 704</b>Don&rsquo;t skip it because it looks trivial. The whole point is getting the two boundary rules into your fingers so the harder ones are only about the <em>new</em> idea, not about re-deriving the loop.</div>
+</div>
+</section>
 
 <!-- ============ BINARY SEARCH ============ -->
 <section id="binary">
