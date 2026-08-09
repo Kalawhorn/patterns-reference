@@ -734,6 +734,34 @@ def hasCycle(self, head):          # 141 - detect a cycle
     return dummy.next</code></pre></div>
   <p>The <code>n</code>-node head start is what converts &ldquo;nth from the end&rdquo; — which needs the length — into a single pass with no length calculation.</p>
 
+  <p class="slot">Habits that catch the silent bugs</p>
+  <p>Linked-list bugs mostly don&rsquo;t raise anything — they hang or quietly corrupt the list. Python won&rsquo;t flag them, so the catching has to happen as you write.</p>
+
+  <h4>Read the left side first: travelling or rewiring?</h4>
+  <p>These look nearly identical and do completely different things. Travelling is the common case; you usually rewire <strong>once</strong>, at the end.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>node = node.next     # bare name on the left  -&gt; MOVING through the list
+node.next = other    # .next on the left      -&gt; EDITING the list structure
+
+node.next = node     # points a node at itself: infinite loop + corrupted list</code></pre></div>
+  <p>If there&rsquo;s a <code>.next</code> on the left and you weren&rsquo;t deliberately restructuring, it&rsquo;s wrong.</p>
+
+  <h4>Point at the line that ends the loop</h4>
+  <p>For every <code>while</code>, name the line that moves you toward the exit condition, and check it actually changes the value. These are legal Python and fail silently:</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>size =+ 1       # parses as  size = +1  -&gt; pinned at 1 forever
+size += 1       # what you meant
+
+i -= 0          # subtracts nothing -&gt; infinite loop
+i -= 1</code></pre></div>
+
+  <h4>A guard that moves the error is the wrong fix</h4>
+  <p>A correct fix makes an error <em>disappear</em>. If adding a condition just relocates the crash to the next line, stop patching and go find why the value was bad in the first place.</p>
+
+  <h4>Make the name match the value</h4>
+  <p><code>dummy = head</code> is not a dummy — it&rsquo;s a second name for the head. Either build the real thing (<code>dummy = ListNode(0, head)</code>) or rename it to what it is (<code>walker</code>, <code>counter</code>). Names are how you track intent twenty lines later.</p>
+
+  <h4>Trace the one-element case before submitting</h4>
+  <p>Run <code>[1]</code> with <code>n = 1</code> in your head. Empty and single-element inputs catch a disproportionate share of these bugs, because that&rsquo;s exactly where &ldquo;the node before this one&rdquo; stops existing.</p>
+
   <details class="deep">
     <summary>Common node operations, and mistakes to check for</summary>
     <div class="deep-body">
