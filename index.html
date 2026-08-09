@@ -178,6 +178,8 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a href="#dfs">DFS</a>
   <h4>Prep</h4>
   <a href="#microsoft">Microsoft focus</a>
+  <h4>Debug</h4>
+  <a href="#checklist">Stuck? Check these</a>
   <h4>Python</h4>
   <a href="#g-lists">Lists &amp; slicing</a>
   <a href="#g-range">range &amp; loops</a>
@@ -1146,7 +1148,104 @@ def bfs(grid, start):
 </div>
 </section>
 
-<p class="part">Part four — Python glossary</p>
+<p class="part">Part four — when it breaks</p>
+
+<section id="checklist">
+<div class="card">
+  <div class="card-hd"><h2>Stuck? Run this checklist</h2></div>
+  <p>The mistakes that actually keep costing you time, with the error each one produces. Read the traceback first — the exception name usually points straight at which of these it is.</p>
+
+  <div class="trigger"><b>Fastest triage</b><code>AttributeError: 'NoneType' has no attribute…</code> → you dereferenced before guarding. <code>IndexError: list index out of range</code> → your loop condition let you run past the end. Right answer but wrong array → you rebound instead of mutating. Infinite loop → a pointer isn&rsquo;t moving.</div>
+
+  <p class="slot">Notation — syntax that bites</p>
+
+  <h4><code>or</code> vs <code>and</code> in a loop condition</h4>
+  <p>This one has cost you twice. <code>or</code> keeps the loop alive if <em>either</em> side is still true — so a condition meant to stop you never does, and you run off the end.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>while right != 0 or right &lt; len(nums):   # WRONG - right != 0 stays true forever
+                                          # -&gt; IndexError
+while head or head not in seen:           # WRONG - None not in seen is True
+                                          # -&gt; AttributeError on head.next
+
+# a stopping condition almost always wants ONE clear test, or `and`
+while right &lt; len(nums):
+while head:</code></pre></div>
+  <p>Sanity check: say the condition out loud as &ldquo;keep going while ___&rdquo;. If you can finish that sentence with a single fact, you don&rsquo;t need a second clause at all.</p>
+
+  <h4>Guard before you dereference</h4>
+  <p>Python evaluates left to right and <strong>short-circuits</strong> — so the existence check has to come first, in the same expression.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>while head.next != None:      # WRONG - crashes when head itself is None
+if node.val == x:             # WRONG - same problem
+
+while head:                   # RIGHT - "while head is not None"
+if node and node.val == x:    # RIGHT - `and` stops before touching .val
+while fast and fast.next:     # RIGHT - you use fast.next.next inside, so check both</code></pre></div>
+
+  <h4><code>is</code> vs <code>==</code> for nodes</h4>
+  <p><code>ListNode</code> defines no <code>__eq__</code>, so <code>==</code> already falls back to identity — same object, not same value. Both work; <code>is</code> says what you mean.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>if slow is fast:      # "the same node object" - preferred for pointers
+if slow == fast:      # identical behaviour here, but reads like a value check</code></pre></div>
+
+  <h4>Declaring an empty thing</h4>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>seen = set(ListNode)   # WRONG - tries to iterate the class itself
+seen = set()           # RIGHT - empty set
+
+head = []              # WRONG - a Python list is not a linked list
+head = None            # RIGHT - an empty linked list is just a null head
+node = ListNode()      # a single node: val=0, next=None</code></pre></div>
+
+  <p class="slot">Concepts — the thinking mistakes</p>
+
+  <h4>Identity vs value when tracking &ldquo;seen&rdquo;</h4>
+  <p>Storing <code>.val</code> answers &ldquo;have I seen this <em>number</em>&rdquo;, which is not the question. <code>[1,1,1]</code> with no cycle would false-positive immediately.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>seen.add(head.val)     # WRONG - duplicate values look like a revisit
+seen.add(head)         # RIGHT - nodes hash by identity, so this means "this exact node"</code></pre></div>
+
+  <h4>Let the data structure do the lookup</h4>
+  <p>If you&rsquo;re looping over a set to find something, you&rsquo;ve turned an O(1) lookup back into O(n) and thrown away the only reason to use a set.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>for node in seen:          # WRONG - O(n) scan per iteration -&gt; O(n^2) total
+    if node is head:
+        return True
+
+if head in seen:           # RIGHT - O(1)
+    return True</code></pre></div>
+
+  <h4>Every pointer in the loop has to move</h4>
+  <p>An infinite loop or a &ldquo;nothing changed&rdquo; result usually means one pointer was set once and never advanced — or advanced the wrong direction.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>left = 0
+while ...:
+    nums[left] = nums[right]
+    right += 1              # WRONG - left never moves, you rewrite nums[0] forever
+
+# converging pointers move TOWARD each other:
+while left &lt; right:
+    left += 1
+    right -= 1              # not += 1 - that walks them apart, past the ends</code></pre></div>
+
+  <h4>Rebinding vs mutating</h4>
+  <p>Assigning to the parameter name swaps out your local label. The caller still sees the original object.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>nums = result       # WRONG - rebinds a local name, caller sees nothing
+nums[:] = result    # RIGHT - overwrites the contents in place
+nums[:k] = result   # RIGHT - for "return k" problems</code></pre></div>
+
+  <h4>Linked lists: relink <code>.next</code>, don&rsquo;t overwrite <code>.val</code></h4>
+  <p>Merging and reordering means <strong>rewiring existing nodes</strong>, not copying values into one node. Writing <code>head.val = …</code> in a loop leaves you with a single node at the end.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>head.val = list1.val       # WRONG - one node, overwritten each pass
+current.next = list1       # RIGHT - splice the actual node into the chain
+current = current.next     # ...and advance the builder pointer</code></pre></div>
+
+  <h4>Return <code>dummy.next</code>, not <code>dummy</code></h4>
+  <p>The dummy is a placeholder whose <code>.val</code> is meaningless. The real list starts one node later.</p>
+
+  <h4>&ldquo;Reached the end&rdquo; vs &ldquo;past the end&rdquo;</h4>
+  <p>Landing exactly on the last index normally counts as success. Requiring an overshoot is an off-by-one.</p>
+  <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>if reach &gt; len(nums):        # WRONG - demands overshooting the whole array
+if reach &gt;= len(nums) - 1:   # RIGHT - reaching the last index is enough</code></pre></div>
+
+  <div class="watch"><b>Before you submit</b>Does every pointer move on every path? Is each <code>.next</code> / index guarded by an existence check first? Are you mutating the input the problem asked you to mutate? Did you handle the empty input and the single-element input?</div>
+</div>
+</section>
+
+<p class="part">Part five — Python glossary</p>
 
 <div class="gloss">
 <section id="g-lists">
