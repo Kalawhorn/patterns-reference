@@ -44,6 +44,11 @@
     });
   });
 
+  /* ---- any external link opens in a new tab ---- */
+  document.querySelectorAll('a[href^="http"]').forEach(function(a){
+    if(a.host !== location.host){ a.target = '_blank'; a.rel = 'noopener'; }
+  });
+
   /* ---- scrollspy ---- */
   var links = Array.prototype.slice.call(document.querySelectorAll('.rail a')).filter(function(a){
     return a.getAttribute('href').charAt(0) === '#';
