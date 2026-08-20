@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Google L4 — the September 8 plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+<nav class="rail">
+  <p class="rail-title">Google &mdash; Sep 8</p>
+  <div class="rail-nav">
+  <h4>The plan</h4>
+  <a href="#google-focus">What to focus on</a>
+  <a href="#google-plan">The 19 days</a>
+  <a href="#google-day">How a day runs</a>
+  <h4>Reference</h4>
+  <a class="out" href="index.html">&larr; Patterns reference</a>
+  </div>
+</nav>
+<main>
+<header class="mast">
+  <p class="eyebrow">Google SWE III / L4 &mdash; coding rounds</p>
+  <h1>Nineteen days to September&nbsp;8.</h1>
+  <p class="lede">Not a problem count. The goal is to meet an unfamiliar prompt, name the structure under it, derive something better than the baseline, and say why out loud while you write it.</p>
+  <p class="count" id="count"></p>
+</header>
+
+<div class="signals">
+  <div class="signals-hd"><span>What you need to know</span><span>Section</span></div>
+  <a class="sig" href="#google-focus"><span class="sig-q">Where should the hours actually go?</span><span class="sig-a">focus tiers</span></a>
+  <a class="sig" href="#google-plan"><span class="sig-q">What am I doing today, and when is it finished?</span><span class="sig-a">the 19 days</span></a>
+  <a class="sig" href="#google-day"><span class="sig-q">How long, in what order, with what timer?</span><span class="sig-a">how a day runs</span></a>
+  <a class="sig" href="index.html"><span class="sig-q">How does this pattern actually go again?</span><span class="sig-a">patterns reference</span></a>
+</div>
+
+<!-- ============ GOOGLE — WHAT TO FOCUS ON ============ -->
+<section id="google-focus">
+<div class="card">
+  <div class="card-hd"><h2>What to focus on</h2></div>
+  <p><strong>19 study days, then the interview.</strong> Arrays and hash maps are already comfortable, so the time goes to graphs, trees, search, heaps, backtracking and DP. The goal is not a problem count. It is this: see an unfamiliar prompt, name the structure underneath it, state a baseline, derive something better, write clean Python, and test it out loud.</p>
+
+  <div class="trigger"><b>The one habit worth drilling every day</b>Before you write a line, finish one sentence — &ldquo;<em>dfs(node) returns…</em>&rdquo;, &ldquo;<em>the window always contains…</em>&rdquo;, &ldquo;<em>lo is the smallest value that could still be the answer</em>&rdquo;. Google is scoring the reasoning. A stated invariant is the cheapest possible evidence of it.</div>
+
+  <p class="slot">Where the hours go</p>
+
+  <div class="tier">
+    <div class="tier-n">Tier 1<span>~half your time</span></div>
+    <div class="tier-b">
+      <p><strong>Graphs and trees.</strong> Grid and adjacency traversal, BFS by levels, topological sort, Dijkstra. Tree recursion, level order, BST bounds, lowest common ancestor.</p>
+      <p class="why">This is the bulk of what Google actually asks, and it is where your prep gap is. Everything in tier 2 shows up wrapped in one of these.</p>
+    </div>
+  </div>
+  <div class="tier">
+    <div class="tier-n">Tier 2<span>~a third</span></div>
+    <div class="tier-b">
+      <p><strong>Binary search on an answer, heaps and top-K, intervals and greedy, backtracking with pruning.</strong></p>
+      <p class="why">High frequency, small surface area. Each is one template plus one invariant you have to say out loud.</p>
+    </div>
+  </div>
+  <div class="tier">
+    <div class="tier-n">Tier 3<span>the rest</span></div>
+    <div class="tier-b">
+      <p><strong>DP and Union Find — recognise and implement the common shapes only.</strong> Take-vs-skip, prefix feasibility, two-sequence DP. Union Find for &ldquo;edges arrive one at a time&rdquo;.</p>
+      <p class="why">Worth being unsurprised by. Not worth becoming a specialist in with 19 days on the clock.</p>
+    </div>
+  </div>
+  <div class="tier">
+    <div class="tier-n">Skip<span>deliberately</span></div>
+    <div class="tier-b">
+      <p><strong>Minimum spanning trees, tries beyond the basics, segment trees, KMP and friends, bit tricks, Hard DP.</strong></p>
+      <p class="why">Low probability at L4, and every hour here is an hour not spent on tier 1. If one appears, modelling the problem clearly will earn more than a half-remembered algorithm.</p>
+    </div>
+  </div>
+
+  <p class="slot">The other half of the score</p>
+  <ul>
+    <li><strong>Narration.</strong> Clarify, baseline, invariant, code, walk through, complexity, follow-up — in that order, every time. An unspoken correct approach scores below a spoken one.</li>
+    <li><strong>Follow-ups.</strong> Google interviewers change the question. After every solved problem, answer one out loud: <em>what if the weights weren&rsquo;t equal? what if the input didn&rsquo;t fit in memory? what if duplicates were allowed? what if the tree had cycles?</em> Two minutes, every problem. This is the L4 differentiator and it costs almost nothing.</li>
+    <li><strong>Recovery.</strong> Being wrong and catching it yourself reads as strength. Practise saying &ldquo;that duplicates queue entries — I should mark seen on enqueue instead&rdquo; rather than silently editing.</li>
+  </ul>
+
+  <div class="watch"><b>Not covered here</b>This plan is coding rounds only. The loop also has a Googleyness / behavioural round, and it is scored. Three 30-minute slots are built into the schedule below (Aug 25, Aug 31, Sep 6) for STAR stories — conflict, failure, ambiguity, influence without authority, a project you owned end to end. Write them once, out loud, and stop. Do not let this become a fourth thing to cram.</div>
+</div>
+</section>
+
+<!-- ============ GOOGLE — THE 19 DAYS ============ -->
+<section id="google-plan">
+<div class="card">
+  <div class="card-hd"><h2>The 19 days</h2></div>
+  <p>Two problems are mandatory; the third is a transfer test and it is always the one you drop when time runs out. Every day has one measurable finish line — if you can&rsquo;t do the <em>done when</em>, the day isn&rsquo;t finished, and the next day loses its third problem instead.</p>
+
+  <div class="gate"><b>Re-solve rule</b>Anything that needed a hint or an editorial goes back on the next day&rsquo;s list, from a blank file. Backlog beats new topics, always.</div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 20</b>Thu</div>
+    <div>
+      <p class="day-t">Tree recursion</p>
+      <details class="prep"><summary><b>Study first</b>Recursive return value</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def dfs(node):
+    if not node:          # base case first
+        return 0          # what does a missing subtree contribute?
+    left = dfs(node.left)
+    right = dfs(node.right)
+    return 1 + max(left, right)   # combine, then return upward</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>node.val</code> <code>node.left</code> <code>node.right</code> <code>if not node</code> <code>max(a, b)</code> <code>return 1 + ...</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/"><span class="no">104</span> Maximum Depth</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/invert-binary-tree/"><span class="no">226</span> Invert Binary Tree</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/diameter-of-binary-tree/"><span class="no">543</span> Diameter</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can say what <code>dfs(node)</code> returns before writing it, and 543 makes sense as &ldquo;return height upward, update a different global answer&rdquo;.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 21</b>Fri</div>
+    <div>
+      <p class="day-t">Trees: levels, bounds, ancestors</p>
+      <details class="prep"><summary><b>Study first</b>BFS by levels, and bounds carried downward</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>q = deque([root])
+while q:
+    for _ in range(len(q)):      # one whole level per outer pass
+        node = q.popleft()
+        if node.left:  q.append(node.left)
+        if node.right: q.append(node.right)
+
+def valid(node, low, high):      # bounds come from ancestors, not the parent
+    if not node: return True
+    return low &lt; node.val &lt; high</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>from collections import deque</code> <code>deque([root])</code> <code>q.popleft()</code> <code>range(len(q))</code> <code>float(&#x27;-inf&#x27;)</code> <code>float(&#x27;inf&#x27;)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/binary-tree-level-order-traversal/"><span class="no">102</span> Level Order</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/validate-binary-search-tree/"><span class="no">98</span> Validate BST</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"><span class="no">236</span> Lowest Common Ancestor</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can explain why 98 needs ancestor bounds rather than parent-child comparisons, and name what state crosses each recursive boundary.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 22</b>Sat</div>
+    <div>
+      <p class="day-t">Graph DFS: connected components <em>timed</em></p>
+      <details class="prep"><summary><b>Study first</b>Grid DFS with visited marking</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>DIRS = [(1,0), (-1,0), (0,1), (0,-1)]
+
+def dfs(r, c):
+    if r &lt; 0 or r &gt;= rows or c &lt; 0 or c &gt;= cols:  # off the board
+        return
+    if grid[r][c] != &#x27;1&#x27;:                          # wrong cell, or already taken
+        return
+    grid[r][c] = &#x27;0&#x27;                               # mark BEFORE recursing
+    for dr, dc in DIRS:
+        dfs(r + dr, c + dc)</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>rows, cols = len(grid), len(grid[0])</code> <code>seen = set()</code> <code>seen.add(x)</code> <code>x in seen</code> <code>range(rows)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/number-of-islands/"><span class="no">200</span> Number of Islands</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/clone-graph/"><span class="no">133</span> Clone Graph</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/max-area-of-island/"><span class="no">695</span> Max Area of Island</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>200 was solved under a 45-minute timer, narrated aloud, in a blank editor with no autocomplete — the first rehearsal, on purpose, in week one.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 23</b>Sun</div>
+    <div>
+      <p class="day-t">BFS and unweighted shortest paths</p>
+      <details class="prep"><summary><b>Study first</b>Multi-source BFS, distance by layer</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>q = deque(starts)          # every source starts at distance 0
+seen = set(starts)
+dist = 0
+while q:
+    for _ in range(len(q)):
+        node = q.popleft()
+        if goal(node):
+            return dist
+        for nei in neighbors(node):
+            if nei not in seen:
+                seen.add(nei)   # mark on ENQUEUE, not on dequeue
+                q.append(nei)
+    dist += 1</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>deque(starts)</code> <code>q.popleft()</code> <code>q.append(x)</code> <code>seen.add(x)</code> <code>not in</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/rotting-oranges/"><span class="no">994</span> Rotting Oranges</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/shortest-path-in-binary-matrix/"><span class="no">1091</span> Shortest Path in Binary Matrix</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/pacific-atlantic-water-flow/"><span class="no">417</span> Pacific Atlantic</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/word-ladder/"><span class="no">127</span> Word Ladder — model only</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can say in plain English why BFS and not DFS gives fewest equal-cost steps, and why <code>seen</code> is marked on enqueue. For 127, describe the nodes and edges out loud and stop — do not grind it to Accepted.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 24</b>Mon</div>
+    <div>
+      <p class="day-t">Directed graphs, topological sort</p>
+      <details class="prep"><summary><b>Study first</b>Kahn&#x27;s algorithm</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>graph = [[] for _ in range(n)]
+indegree = [0] * n
+for course, prereq in prerequisites:
+    graph[prereq].append(course)     # prereq unlocks course
+    indegree[course] += 1
+
+q = deque(i for i in range(n) if indegree[i] == 0)
+order = []
+while q:
+    node = q.popleft()
+    order.append(node)
+    for nei in graph[node]:
+        indegree[nei] -= 1
+        if indegree[nei] == 0:
+            q.append(nei)
+# len(order) &lt; n  -&gt;  a cycle blocked the rest</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>[[] for _ in range(n)]</code> <code>[0] * n</code> <code>deque(gen)</code> <code>len(order) &lt; n</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/course-schedule-ii/"><span class="no">210</span> Course Schedule II</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/find-eventual-safe-states/"><span class="no">802</span> Eventual Safe States</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>Edge direction follows the story without hesitation, and you can state why <code>len(order) &lt; n</code> means a cycle.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 25</b>Tue</div>
+    <div>
+      <p class="day-t">Heaps and Dijkstra <em>+ 30 min STAR</em></p>
+      <details class="prep"><summary><b>Study first</b>heapq mechanics, then Dijkstra</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>import heapq
+heapq.heappush(heap, (priority, item))   # tuples compare left to right
+priority, item = heapq.heappop(heap)     # always the SMALLEST
+heapq.heappush(heap, -value)             # max-heap trick for numbers
+
+dist = {start: 0}
+heap = [(0, start)]
+while heap:
+    d, node = heapq.heappop(heap)
+    if d != dist[node]:      # stale entry, a better route already won
+        continue
+    for nei, w in graph[node]:
+        nd = d + w
+        if nd &lt; dist.get(nei, float(&#x27;inf&#x27;)):
+            dist[nei] = nd
+            heapq.heappush(heap, (nd, nei))</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>import heapq</code> <code>heapq.heappush</code> <code>heapq.heappop</code> <code>heapq.heapify(xs)</code> <code>dist.get(k, default)</code> <code>float(&#x27;inf&#x27;)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/kth-largest-element-in-an-array/"><span class="no">215</span> Kth Largest</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/network-delay-time/"><span class="no">743</span> Network Delay Time</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/path-with-maximum-probability/"><span class="no">1514</span> Max Probability</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can explain where BFS stops being valid and why the heap fixes it, and why stale heap entries are skipped rather than removed.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 26</b>Wed</div>
+    <div>
+      <p class="day-t">Intervals and greedy</p>
+      <details class="prep"><summary><b>Study first</b>Sort first, then compare against the last kept interval</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>intervals.sort(key=lambda x: x[0])       # by start
+merged = []
+for start, end in intervals:
+    if not merged or start &gt; merged[-1][1]:
+        merged.append([start, end])          # no overlap: keep it
+    else:
+        merged[-1][1] = max(merged[-1][1], end)   # extend the last one</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>xs.sort(key=lambda x: x[0])</code> <code>xs.sort(key=lambda x: x[1])</code> <code>merged[-1]</code> <code>max(a, b)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/merge-intervals/"><span class="no">56</span> Merge Intervals</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/insert-interval/"><span class="no">57</span> Insert Interval</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/non-overlapping-intervals/"><span class="no">435</span> Non-overlapping Intervals</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can give the reason the greedy choice in 435 cannot hurt the global answer — not just the rule, the argument.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 27</b>Thu</div>
+    <div>
+      <p class="day-t">Binary search beyond sorted arrays</p>
+      <details class="prep"><summary><b>Study first</b>The boundary template — one shape, all four variants</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def first_true(lo, hi, feasible):
+    # lo = smallest value that could still be the answer
+    # hi = smallest value known to be feasible
+    while lo &lt; hi:
+        mid = (lo + hi) // 2
+        if feasible(mid):
+            hi = mid          # mid might be the answer, so keep it
+        else:
+            lo = mid + 1      # mid is ruled out
+    return lo</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>(lo + hi) // 2</code> <code>while lo &lt; hi</code> <code>lo = mid + 1</code> <code>hi = mid</code> <code>bisect.bisect_left(xs, x)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/binary-search/"><span class="no">704</span> Binary Search</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/search-in-rotated-sorted-array/"><span class="no">33</span> Rotated Sorted Array</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/koko-eating-bananas/"><span class="no">875</span> Koko Eating Bananas</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You write what <code>lo</code> and <code>hi</code> mean before the loop, and &ldquo;minimum X such that…&rdquo; makes you look for a monotonic predicate automatically.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 28</b>Fri</div>
+    <div>
+      <p class="day-t">Backtracking I: state and choices</p>
+      <details class="prep"><summary><b>Study first</b>Choose, recurse, undo</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>result, path = [], []
+
+def backtrack(start):
+    result.append(path.copy())     # copy - or every entry aliases one list
+    for i in range(start, len(nums)):
+        path.append(nums[i])       # choose
+        backtrack(i + 1)           # recurse
+        path.pop()                 # undo</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>path.copy()</code> <code>path.pop()</code> <code>range(start, len(nums))</code> <code>used = [False] * n</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/subsets/"><span class="no">78</span> Subsets</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/permutations/"><span class="no">46</span> Permutations</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/combination-sum/"><span class="no">39</span> Combination Sum</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can name state, choices, completion condition and undo before coding — four sentences, then type.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 29</b>Sat</div>
+    <div>
+      <p class="day-t">Backtracking II: pruning <em>mock round 1</em></p>
+      <details class="prep"><summary><b>Study first</b>Prune the branch before you take it</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>def gen(opened, closed):
+    if opened == n and closed == n:
+        result.append(&#x27;&#x27;.join(path))
+        return
+    if opened &lt; n:                 # only legal moves are even offered
+        path.append(&#x27;(&#x27;); gen(opened + 1, closed); path.pop()
+    if closed &lt; opened:            # never lets the prefix become invalid
+        path.append(&#x27;)&#x27;); gen(opened, closed + 1); path.pop()
+
+board[r][c] = &#x27;#&#x27;      # grid backtracking: mark, explore, restore
+board[r][c] = letter</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>&#x27;&#x27;.join(path)</code> <code>path.pop()</code> <code>word[i]</code> <code>len(word)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/word-search/"><span class="no">79</span> Word Search</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/generate-parentheses/"><span class="no">22</span> Generate Parentheses</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/open-the-lock/"><span class="no">752</span> Open the Lock — 45 min, timed, unseen</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can say which partial states are impossible and cut them before recursing — and 752 was recognised as BFS over a hidden state space <em>before</em> coding, under the timer.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 30</b>Sun</div>
+    <div>
+      <p class="day-t">DP foundations <em>+ backlog</em></p>
+      <details class="prep"><summary><b>Study first</b>Recursion, then a cache</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>from functools import lru_cache
+
+@lru_cache(None)
+def rob(i):
+    if i &gt;= len(nums):
+        return 0
+    skip = rob(i + 1)
+    take = nums[i] + rob(i + 2)
+    return max(skip, take)
+# say the state out loud first: &quot;rob(i) = the best haul from house i onward&quot;</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>from functools import lru_cache</code> <code>@lru_cache(None)</code> <code>float(&#x27;inf&#x27;)</code> <code>min(a, b)</code> <code>range(1, n + 1)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/climbing-stairs/"><span class="no">70</span> Climbing Stairs</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/house-robber/"><span class="no">198</span> House Robber</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/coin-change/"><span class="no">322</span> Coin Change</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can derive House Robber&rsquo;s state and recurrence on paper before coding, and the re-solve backlog is empty. Clear the backlog first.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 31</b>Mon</div>
+    <div>
+      <p class="day-t">2D and string DP <em>+ 30 min STAR</em></p>
+      <details class="prep"><summary><b>Study first</b>Two indices, one cache</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>@lru_cache(None)
+def lcs(i, j):
+    if i == len(a) or j == len(b):
+        return 0
+    if a[i] == b[j]:
+        return 1 + lcs(i + 1, j + 1)      # match: advance both
+    return max(lcs(i + 1, j), lcs(i, j + 1))   # else: branch
+
+dp = [[0] * (cols + 1) for _ in range(rows + 1)]   # the bottom-up shape</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>@lru_cache(None)</code> <code>[[0] * m for _ in range(n)]</code> <code>s[i:j]</code> <code>word in wordset</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/unique-paths/"><span class="no">62</span> Unique Paths</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/word-break/"><span class="no">139</span> Word Break</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/longest-common-subsequence/"><span class="no">1143</span> Longest Common Subsequence</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>For any DP prompt you write one sentence defining <code>dp(state)</code>, then the recurrence, then the base case — in that order, before any code.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 1</b>Tue</div>
+    <div>
+      <p class="day-t">Union Find <em>+ catch-up</em></p>
+      <details class="prep"><summary><b>Study first</b>find and union, with path compression</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>parent = list(range(n))
+rank = [0] * n
+
+def find(x):
+    if parent[x] != x:
+        parent[x] = find(parent[x])   # path compression
+    return parent[x]
+
+def union(a, b):
+    ra, rb = find(a), find(b)
+    if ra == rb:
+        return False                  # already connected -&gt; this edge is a cycle
+    if rank[ra] &lt; rank[rb]:
+        ra, rb = rb, ra
+    parent[rb] = ra
+    if rank[ra] == rank[rb]:
+        rank[ra] += 1
+    return True</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>list(range(n))</code> <code>[0] * n</code> <code>a, b = b, a</code> <code>defaultdict(list)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/redundant-connection/"><span class="no">684</span> Redundant Connection</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/accounts-merge/"><span class="no">721</span> Accounts Merge</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/min-cost-to-connect-all-points/"><span class="no">1584</span> Connect All Points — optional</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can tell &ldquo;is it reachable right now&rdquo; (DFS/BFS) from &ldquo;edges keep arriving&rdquo; (Union Find). Skip 1584 unless everything else is clean — MSTs are off the critical path.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 2</b>Wed</div>
+    <div>
+      <p class="day-t">Array patterns + linked-list retrieval</p>
+      <details class="prep"><summary><b>Study first</b>Kadane, the window skeleton, and the linked-list moves</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code>best = cur = nums[0]                 # Kadane: extend, or restart here
+for x in nums[1:]:
+    cur = max(x, cur + x)
+    best = max(best, cur)
+
+left = 0                             # sliding window
+for right in range(len(nums)):
+    add(nums[right])
+    while invalid():
+        remove(nums[left]); left += 1
+    best = max(best, right - left + 1)
+
+slow = fast = head                   # find the middle
+while fast and fast.next:
+    slow, fast = slow.next, fast.next.next
+
+prev, cur = None, slow               # reverse a chain
+while cur:
+    cur.next, prev, cur = prev, cur, cur.next</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>Counter(s)</code> <code>max(count.values())</code> <code>dummy = ListNode()</code> <code>while fast and fast.next</code> <code>return dummy.next</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/maximum-subarray/"><span class="no">53</span> Maximum Subarray</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/longest-repeating-character-replacement/"><span class="no">424</span> Character Replacement</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/reorder-list/"><span class="no">143</span> Reorder List</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can derive Kadane from &ldquo;extend or restart&rdquo;, state the window invariant for 424, and 143 comes out clean — it is find-middle plus reverse plus join, the three linked-list moves in <a href="index.html#linked-list">[7]</a>, and linked lists are where your silent bugs live.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 3</b>Thu</div>
+    <div>
+      <p class="day-t">Mixed simulation I <em>no tags</em></p>
+      <details class="prep"><summary><b>Study first</b>Write this on paper before you type anything</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># 1. inputs / outputs / constraints
+# 2. brute force + its complexity
+# 3. the pattern, and the invariant in one sentence
+# 4. target complexity
+# then code.
+
+import bisect
+i = bisect.bisect_right(times, t) - 1   # newest entry at or before t</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>bisect.bisect_left(xs, x)</code> <code>bisect.bisect_right(xs, x)</code> <code>defaultdict(list)</code> <code>d.setdefault(k, [])</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/path-with-minimum-effort/"><span class="no">1631</span> Path With Minimum Effort — 45 min, timed</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/time-based-key-value-store/"><span class="no">981</span> Time Based Key-Value Store</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/task-scheduler/"><span class="no">621</span> Task Scheduler</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You named the family without opening the tags, and stated the baseline before optimising even where the pattern was obvious.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 4</b>Fri</div>
+    <div>
+      <p class="day-t">Mixed simulation II <em>no tags</em></p>
+      <details class="prep"><summary><b>Study first</b>The five recognition questions</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># - What are the nodes / states?
+# - What are the edges / transitions?
+# - Is there an ordering property I can exploit?
+# - Do I repeatedly need the min or the max?
+# - Is the same subproblem showing up twice?
+
+graph = defaultdict(list)
+graph[u].append((v, w))          # weighted edge, both directions if undirected
+graph[v].append((u, 1 / w))</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>from collections import defaultdict</code> <code>graph[u].append((v, w))</code> <code>heapq.heappush(h, (-d, x))</code> <code>enumerate(xs)</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/evaluate-division/"><span class="no">399</span> Evaluate Division — 45 min, timed</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/binary-tree-right-side-view/"><span class="no">199</span> Right Side View</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/k-closest-points-to-origin/"><span class="no">973</span> K Closest Points</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>An unfamiliar story gets turned into nodes, edges and transitions on paper instead of a hunt through memory for a matching problem.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 5</b>Sat</div>
+    <div>
+      <p class="day-t">Full mock <em>two rounds</em></p>
+      <details class="prep"><summary><b>Study first</b>No new syntax today — only the clock</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># 0-5    restate, clarify, one tiny example + one edge case
+# 5-10   baseline out loud, its complexity, what to improve
+# 10-32  invariant, then code while narrating
+# 32-38  walk an example by hand, then an edge case
+# 38-42  complexity + one follow-up
+# 42-45  buffer</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>set a 45:00 timer</code> <code>blank file</code> <code>no autocomplete</code> <code>talk the whole time</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/cheapest-flights-within-k-stops/"><span class="no">787</span> Cheapest Flights Within K Stops</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/"><span class="no">230</span> Kth Smallest in a BST</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule — re-solve</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>Two 45-minute rounds finished back to back with no hints, time managed, reasoning narrated, and at least one approach compared against an alternative out loud.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 6</b>Sun</div>
+    <div>
+      <p class="day-t">Repair day <em>no new topics</em></p>
+      <details class="prep"><summary><b>Study first</b>Your error log is today&#x27;s syllabus</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># Problem:
+# Pattern I should have recognised:
+# The clue in the prompt I missed:
+# Bug or reasoning gap:
+# One-sentence rule for next time:</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>re-solve from a blank file</code> <code>no old code open</code> <code>no editorial</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="#google-day">Re-solve your three worst, blank file</a></li>
+        <li><a class="chip" href="#google-focus">Final 30 min STAR pass</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>Each of the three has one written sentence — &ldquo;the clue I missed was ___&rdquo; — and each now works from a blank file. Nothing new gets opened today.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 7</b>Mon</div>
+    <div>
+      <p class="day-t">Retrieval <em>stop by mid-afternoon</em></p>
+      <details class="prep"><summary><b>Study first</b>Type all seven from memory, then compare</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># 1. DFS with a visited set
+# 2. BFS by levels with deque
+# 3. heapq push / pop
+# 4. binary search boundary (first_true)
+# 5. Kahn topological sort
+# 6. Dijkstra
+# 7. backtracking: choose / recurse / undo</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>deque()</code> <code>heapq.heappush</code> <code>@lru_cache(None)</code> <code>float(&#x27;inf&#x27;)</code> <code>defaultdict(list)</code> <code>path.copy()</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/number-of-islands/"><span class="no">200</span> Number of Islands — re-solve</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule — re-solve</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/network-delay-time/"><span class="no">743</span> Network Delay Time — re-solve</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>DFS, BFS, heap push/pop, binary search, Kahn, Dijkstra and the backtracking skeleton all come out of memory without a syntax lookup. Then stop — late cramming has negative expected value.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 8</b>Tue</div>
+    <div>
+      <p class="day-t">Interview day <em>warm up, don&rsquo;t train</em></p>
+      <details class="prep"><summary><b>Study first</b>If you stall, run this</summary>
+        <div class="prep-body">
+          <div class="code"><div class="code-hd"><span class="lbl">python</span><button class="copy">Copy</button></div><pre><code># 1. What is the brute force?
+# 2. What work does it repeat?
+# 3. Can I model this as a graph / tree / window / search space?
+# 4. What must I remember as I go?  &lt;- that is the state</code></pre></div>
+          <p class="cmds"><b>Commands to have ready</b><code>breathe</code> <code>restate the problem</code> <code>one small example</code> <code>say the invariant</code></p>
+        </div>
+      </details>
+      <ul class="chips">
+        <li><a class="chip" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/"><span class="no">104</span> Maximum Depth — optional warmup</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You stop after the warmup. No new Hard, no new algorithm. If you stall in the room, go back to the structure: states, transitions, constraints, repeated work, invariants.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ GOOGLE — HOW A DAY RUNS ============ -->
+<section id="google-day">
+<div class="card">
+  <div class="card-hd"><h2>How a day runs</h2></div>
+
+  <p class="slot">The study block — about 100 minutes</p>
+  <ul>
+    <li><strong>10 min — templates from memory.</strong> Blank file, no reference. Two of: DFS, BFS with <code>deque</code>, <code>heapq</code> push/pop, binary search boundary, Kahn, Dijkstra, backtracking skeleton. Rotate so each is typed roughly every third day.</li>
+    <li><strong>45 min — the first mandatory problem</strong>, derived rather than recalled. About 30 minutes of genuine attempt on a new Medium before reading anything, and then only enough to find the missing idea.</li>
+    <li><strong>30 min — the second mandatory problem.</strong></li>
+    <li><strong>10 min — follow-up and error log.</strong> One changed-constraint question answered out loud, and one line in the log for anything that went wrong.</li>
+    <li>The third problem is a bonus, not a debt. Backlog and re-solves outrank it every time.</li>
+  </ul>
+
+  <div class="gate"><b>Timer discipline</b>New Medium: 30 minutes of real attempt before a hint. Timed round: 45 minutes, hard stop. Anything you needed help with goes on tomorrow&rsquo;s list.</div>
+
+  <p class="slot">Inside a 45-minute round</p>
+  <div class="code"><div class="code-hd"><span class="lbl">cadence</span><button class="copy">Copy</button></div><pre><code># 0-5    restate, clarify constraints, one tiny example + one edge case
+# 5-10   baseline approach out loud + its complexity, then what to improve
+# 10-32  state the invariant, then code while narrating the choices
+# 32-38  walk a normal example by hand, then an edge case
+# 38-42  final time/space complexity, one follow-up
+# 42-45  buffer</code></pre></div>
+
+  <p class="slot">What narration sounds like</p>
+  <ul>
+    <li><strong>Clarify</strong> — &ldquo;Can there be duplicates, and may I modify the input?&rdquo;</li>
+    <li><strong>Baseline</strong> — &ldquo;Every pair is O(n²). The repeated scan is the waste; a hash map removes it.&rdquo;</li>
+    <li><strong>Define state</strong> — &ldquo;<code>dfs(node)</code> is the maximum depth of the subtree rooted at node.&rdquo;</li>
+    <li><strong>Invariant</strong> — &ldquo;The window always holds at most k characters beyond its most frequent one.&rdquo;</li>
+    <li><strong>Self-correct</strong> — &ldquo;That duplicates queue entries. I&rsquo;ll mark seen on enqueue instead.&rdquo;</li>
+    <li><strong>Complexity</strong> — &ldquo;Each node and edge once, so O(V+E) time, O(V) for the queue and visited set.&rdquo;</li>
+    <li><strong>Follow-up</strong> — &ldquo;With unequal weights BFS stops being valid; I&rsquo;d move to Dijkstra for non-negative edges.&rdquo;</li>
+  </ul>
+
+  <p class="slot">Error log — one entry per failure</p>
+  <div class="code"><div class="code-hd"><span class="lbl">template</span><button class="copy">Copy</button></div><pre><code># Problem:
+# Pattern I should have recognised:
+# The clue in the prompt I missed:
+# Bug or reasoning gap:
+# One-sentence rule for next time:</code></pre></div>
+  <p class="note">On Sep 6 this log <em>is</em> the curriculum. It is the only reason repair day works.</p>
+
+  <details class="deep">
+    <summary>What changed from the first draft of the plan</summary>
+    <div class="deep-body">
+      <ul>
+        <li><strong>Timed rehearsal moved to day 3</strong> (Aug 22) instead of day 15. Two weeks of untimed solving followed by a sudden mock is how time management becomes the thing that fails.</li>
+        <li><strong>Word Ladder demoted to a modelling exercise.</strong> It is a Hard whose lesson — the graph is hidden inside the story — takes ten minutes to absorb and two hours to grind out. 1091 takes the coding slot instead.</li>
+        <li><strong>Open the Lock moved to Aug 29</strong> as the first unseen timed problem, which frees repair day to actually repair rather than teach.</li>
+        <li><strong>MST/Prim made optional</strong> and Sep 1 turned into a catch-up day. Nineteen straight days with no slack is a plan that breaks on the first bad evening.</li>
+        <li><strong>Linked lists added back</strong> via 143 on Sep 2. They were cut entirely from the original plan, and they are the one area with a documented history of silent bugs — see <a href="index.html#checklist">the checklist</a>.</li>
+        <li><strong>Daily template warm-up and follow-up drill added.</strong> Fifteen minutes a day, spaced, aimed straight at retrieval speed and the follow-up questions.</li>
+        <li><strong>Behavioural prep scheduled</strong> in three 30-minute slots. It was missing from a plan for a loop that scores it.</li>
+        <li><strong>Every day got a measurable finish line</strong>, and the third problem was made explicitly droppable so the backlog can never lose to new material.</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="watch"><b>The bar for September 8</b>You do not need every algorithm. You need to turn an unfamiliar prompt into a known structure, explain the reasoning while you do it, write working Python for the common patterns, and test it systematically. Forty problems understood beat a hundred memorised.</div>
+</div>
+</section>
+
+<p class="backlink">Templates, worked examples and the debug checklist live in the <a href="index.html">patterns reference</a>.</p>
+
+</main>
+</div>
+<script src="app.js"></script>
+<script>
+(function(){
+  var el = document.getElementById('count');
+  if(!el) return;
+  var now = new Date();
+  var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  var days = Math.round((new Date(2026, 8, 8) - today) / 864e5);
+  el.textContent = days > 1 ? days + ' days to go'
+                 : days === 1 ? 'Tomorrow'
+                 : days === 0 ? 'Today \u2014 good luck'
+                 : 'Interview day has passed';
+})();
+</script>
+</body>
+</html>
