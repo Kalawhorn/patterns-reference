@@ -132,6 +132,27 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
 .deep-body>h3:first-child,.deep-body>h4:first-child{margin-top:1rem}
 
 
+/* ---------- study plan ---------- */
+.tier{display:grid;grid-template-columns:150px minmax(0,1fr);gap:1rem;padding:.85rem 0;border-top:1px solid var(--rule)}
+.tier:first-of-type{border-top:none;padding-top:.2rem}
+.tier-n{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--signal);font-weight:500}
+.tier-n span{display:block;color:var(--faint);letter-spacing:0;text-transform:none;font-size:11.5px;margin-top:.15rem}
+.tier-b{font-size:14.5px}
+.tier-b p{margin:0 0 .3rem}
+.tier-b .why{color:var(--muted);font-size:13.5px;margin:0}
+
+.day{display:grid;grid-template-columns:92px minmax(0,1fr);gap:1.1rem;padding:1rem 0 .9rem;border-top:1px solid var(--rule)}
+.day:first-of-type{border-top:none}
+.day-when{font-family:var(--mono);font-size:11.5px;color:var(--faint);line-height:1.45}
+.day-when b{display:block;font-size:13px;color:var(--signal);font-weight:600;letter-spacing:-0.01em}
+.day-t{font-family:var(--display);font-weight:500;font-size:1.04rem;letter-spacing:-0.01em;margin:0 0 .3rem}
+.day-t em{font-family:var(--mono);font-style:normal;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--warn);background:var(--warn-bg);border-radius:3px;padding:.12rem .4rem;margin-left:.45rem;vertical-align:.12em}
+.done{font-size:14px;color:var(--muted);margin:.45rem 0 0}
+.done b{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:500;margin-right:.4rem}
+.gate{border-left:2px solid var(--signal);background:var(--signal-bg);padding:.55rem .9rem;margin:.2rem 0 1rem;font-size:14px}
+.gate b{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--signal);font-weight:500;margin-right:.4rem}
+
 /* ---------- misc ---------- */
 .plist{columns:2;column-gap:2rem;font-size:14.5px;margin:0 0 1.4rem;padding-left:1.1rem}
 .plist li{break-inside:avoid;margin-bottom:.28rem;color:var(--muted)}
@@ -149,6 +170,8 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   .rail a{padding:.1rem 0;border-left:none}
   .rail a.on{border-left:none}
   .plist{columns:1}
+  .tier,.day{grid-template-columns:1fr;gap:.35rem}
+  .day-when b{display:inline;margin-right:.5rem}
   .card{padding:1.2rem 1.1rem 1rem}
   main{padding-top:0}
 }
@@ -178,6 +201,10 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a href="#bfs">BFS</a>
   <a href="#dfs">DFS</a>
   <a href="#tree-recursion">Tree recursion</a>
+  <h4>Google &mdash; Sep 8</h4>
+  <a href="#google-focus">What to focus on</a>
+  <a href="#google-plan">The 19 days</a>
+  <a href="#google-day">How a day runs</a>
   <h4>Prep</h4>
   <a href="#microsoft">Microsoft focus</a>
   <h4>Debug</h4>
@@ -214,6 +241,8 @@ details.deep[open]>summary{border-bottom:1px solid var(--rule)}
   <a class="sig" href="#dfs"><span class="sig-q">Every path, connected regions</span><span class="sig-a">DFS</span></a>
   <a class="sig" href="#tree-recursion"><span class="sig-q">Depth, validity, or an ancestor of a tree</span><span class="sig-a">tree recursion</span></a>
 </div>
+
+<div class="trigger"><b>Interview — 8 September 2026</b>The 19-day Google L4 plan lives in <a href="#google-plan">part three</a>: what to focus on, what to skip, and one measurable finish line per day.</div>
 
 <p><strong>Two shortcuts that hold up often.</strong> Sorted input usually means two pointers or binary search. The word &ldquo;contiguous&rdquo; usually means sliding window.</p>
 
@@ -1367,7 +1396,390 @@ return p.val == q.val and same(p.left, q.left) and same(p.right, q.right)</code>
 </div>
 </section>
 
-<p class="part">Part three — Microsoft focus</p>
+<p class="part">Part three — Google L4, September 8</p>
+
+<!-- ============ GOOGLE — WHAT TO FOCUS ON ============ -->
+<section id="google-focus">
+<div class="card">
+  <div class="card-hd"><h2>What to focus on</h2></div>
+  <p><strong>19 study days, then the interview.</strong> Arrays and hash maps are already comfortable, so the time goes to graphs, trees, search, heaps, backtracking and DP. The goal is not a problem count. It is this: see an unfamiliar prompt, name the structure underneath it, state a baseline, derive something better, write clean Python, and test it out loud.</p>
+
+  <div class="trigger"><b>The one habit worth drilling every day</b>Before you write a line, finish one sentence — &ldquo;<em>dfs(node) returns…</em>&rdquo;, &ldquo;<em>the window always contains…</em>&rdquo;, &ldquo;<em>lo is the smallest value that could still be the answer</em>&rdquo;. Google is scoring the reasoning. A stated invariant is the cheapest possible evidence of it.</div>
+
+  <p class="slot">Where the hours go</p>
+
+  <div class="tier">
+    <div class="tier-n">Tier 1<span>~half your time</span></div>
+    <div class="tier-b">
+      <p><strong>Graphs and trees.</strong> Grid and adjacency traversal, BFS by levels, topological sort, Dijkstra. Tree recursion, level order, BST bounds, lowest common ancestor.</p>
+      <p class="why">This is the bulk of what Google actually asks, and it is where your prep gap is. Everything in tier 2 shows up wrapped in one of these.</p>
+    </div>
+  </div>
+  <div class="tier">
+    <div class="tier-n">Tier 2<span>~a third</span></div>
+    <div class="tier-b">
+      <p><strong>Binary search on an answer, heaps and top-K, intervals and greedy, backtracking with pruning.</strong></p>
+      <p class="why">High frequency, small surface area. Each is one template plus one invariant you have to say out loud.</p>
+    </div>
+  </div>
+  <div class="tier">
+    <div class="tier-n">Tier 3<span>the rest</span></div>
+    <div class="tier-b">
+      <p><strong>DP and Union Find — recognise and implement the common shapes only.</strong> Take-vs-skip, prefix feasibility, two-sequence DP. Union Find for &ldquo;edges arrive one at a time&rdquo;.</p>
+      <p class="why">Worth being unsurprised by. Not worth becoming a specialist in with 19 days on the clock.</p>
+    </div>
+  </div>
+  <div class="tier">
+    <div class="tier-n">Skip<span>deliberately</span></div>
+    <div class="tier-b">
+      <p><strong>Minimum spanning trees, tries beyond the basics, segment trees, KMP and friends, bit tricks, Hard DP.</strong></p>
+      <p class="why">Low probability at L4, and every hour here is an hour not spent on tier 1. If one appears, modelling the problem clearly will earn more than a half-remembered algorithm.</p>
+    </div>
+  </div>
+
+  <p class="slot">The other half of the score</p>
+  <ul>
+    <li><strong>Narration.</strong> Clarify, baseline, invariant, code, walk through, complexity, follow-up — in that order, every time. An unspoken correct approach scores below a spoken one.</li>
+    <li><strong>Follow-ups.</strong> Google interviewers change the question. After every solved problem, answer one out loud: <em>what if the weights weren&rsquo;t equal? what if the input didn&rsquo;t fit in memory? what if duplicates were allowed? what if the tree had cycles?</em> Two minutes, every problem. This is the L4 differentiator and it costs almost nothing.</li>
+    <li><strong>Recovery.</strong> Being wrong and catching it yourself reads as strength. Practise saying &ldquo;that duplicates queue entries — I should mark seen on enqueue instead&rdquo; rather than silently editing.</li>
+  </ul>
+
+  <div class="watch"><b>Not covered here</b>This plan is coding rounds only. The loop also has a Googleyness / behavioural round, and it is scored. Three 30-minute slots are built into the schedule below (Aug 25, Aug 31, Sep 6) for STAR stories — conflict, failure, ambiguity, influence without authority, a project you owned end to end. Write them once, out loud, and stop. Do not let this become a fourth thing to cram.</div>
+</div>
+</section>
+
+<!-- ============ GOOGLE — THE 19 DAYS ============ -->
+<section id="google-plan">
+<div class="card">
+  <div class="card-hd"><h2>The 19 days</h2></div>
+  <p>Two problems are mandatory; the third is a transfer test and it is always the one you drop when time runs out. Every day has one measurable finish line — if you can&rsquo;t do the <em>done when</em>, the day isn&rsquo;t finished, and the next day loses its third problem instead.</p>
+
+  <div class="gate"><b>Re-solve rule</b>Anything that needed a hint or an editorial goes back on the next day&rsquo;s list, from a blank file. Backlog beats new topics, always.</div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 20</b>Thu</div>
+    <div>
+      <p class="day-t">Tree recursion</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/"><span class="no">104</span> Maximum Depth</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/invert-binary-tree/"><span class="no">226</span> Invert Binary Tree</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/diameter-of-binary-tree/"><span class="no">543</span> Diameter</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can say what <code>dfs(node)</code> returns before writing it, and 543 makes sense as &ldquo;return height upward, update a different global answer&rdquo;.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 21</b>Fri</div>
+    <div>
+      <p class="day-t">Trees: levels, bounds, ancestors</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/binary-tree-level-order-traversal/"><span class="no">102</span> Level Order</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/validate-binary-search-tree/"><span class="no">98</span> Validate BST</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"><span class="no">236</span> Lowest Common Ancestor</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can explain why 98 needs ancestor bounds rather than parent-child comparisons, and name what state crosses each recursive boundary.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 22</b>Sat</div>
+    <div>
+      <p class="day-t">Graph DFS: connected components <em>timed</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/number-of-islands/"><span class="no">200</span> Number of Islands</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/clone-graph/"><span class="no">133</span> Clone Graph</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/max-area-of-island/"><span class="no">695</span> Max Area of Island</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>200 was solved under a 45-minute timer, narrated aloud, in a blank editor with no autocomplete — the first rehearsal, on purpose, in week one.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 23</b>Sun</div>
+    <div>
+      <p class="day-t">BFS and unweighted shortest paths</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/rotting-oranges/"><span class="no">994</span> Rotting Oranges</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/shortest-path-in-binary-matrix/"><span class="no">1091</span> Shortest Path in Binary Matrix</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/pacific-atlantic-water-flow/"><span class="no">417</span> Pacific Atlantic</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/word-ladder/"><span class="no">127</span> Word Ladder — model only</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can say in plain English why BFS and not DFS gives fewest equal-cost steps, and why <code>seen</code> is marked on enqueue. For 127, describe the nodes and edges out loud and stop — do not grind it to Accepted.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 24</b>Mon</div>
+    <div>
+      <p class="day-t">Directed graphs, topological sort</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/course-schedule-ii/"><span class="no">210</span> Course Schedule II</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/find-eventual-safe-states/"><span class="no">802</span> Eventual Safe States</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>Edge direction follows the story without hesitation, and you can state why <code>len(order) &lt; n</code> means a cycle.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 25</b>Tue</div>
+    <div>
+      <p class="day-t">Heaps and Dijkstra <em>+ 30 min STAR</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/kth-largest-element-in-an-array/"><span class="no">215</span> Kth Largest</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/network-delay-time/"><span class="no">743</span> Network Delay Time</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/path-with-maximum-probability/"><span class="no">1514</span> Max Probability</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can explain where BFS stops being valid and why the heap fixes it, and why stale heap entries are skipped rather than removed.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 26</b>Wed</div>
+    <div>
+      <p class="day-t">Intervals and greedy</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/merge-intervals/"><span class="no">56</span> Merge Intervals</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/insert-interval/"><span class="no">57</span> Insert Interval</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/non-overlapping-intervals/"><span class="no">435</span> Non-overlapping Intervals</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can give the reason the greedy choice in 435 cannot hurt the global answer — not just the rule, the argument.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 27</b>Thu</div>
+    <div>
+      <p class="day-t">Binary search beyond sorted arrays</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/binary-search/"><span class="no">704</span> Binary Search</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/search-in-rotated-sorted-array/"><span class="no">33</span> Rotated Sorted Array</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/koko-eating-bananas/"><span class="no">875</span> Koko Eating Bananas</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You write what <code>lo</code> and <code>hi</code> mean before the loop, and &ldquo;minimum X such that…&rdquo; makes you look for a monotonic predicate automatically.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 28</b>Fri</div>
+    <div>
+      <p class="day-t">Backtracking I: state and choices</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/subsets/"><span class="no">78</span> Subsets</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/permutations/"><span class="no">46</span> Permutations</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/combination-sum/"><span class="no">39</span> Combination Sum</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can name state, choices, completion condition and undo before coding — four sentences, then type.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 29</b>Sat</div>
+    <div>
+      <p class="day-t">Backtracking II: pruning <em>mock round 1</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/word-search/"><span class="no">79</span> Word Search</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/generate-parentheses/"><span class="no">22</span> Generate Parentheses</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/open-the-lock/"><span class="no">752</span> Open the Lock — 45 min, timed, unseen</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can say which partial states are impossible and cut them before recursing — and 752 was recognised as BFS over a hidden state space <em>before</em> coding, under the timer.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 30</b>Sun</div>
+    <div>
+      <p class="day-t">DP foundations <em>+ backlog</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/climbing-stairs/"><span class="no">70</span> Climbing Stairs</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/house-robber/"><span class="no">198</span> House Robber</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/coin-change/"><span class="no">322</span> Coin Change</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can derive House Robber&rsquo;s state and recurrence on paper before coding, and the re-solve backlog is empty. Clear the backlog first.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Aug 31</b>Mon</div>
+    <div>
+      <p class="day-t">2D and string DP <em>+ 30 min STAR</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/unique-paths/"><span class="no">62</span> Unique Paths</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/word-break/"><span class="no">139</span> Word Break</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/longest-common-subsequence/"><span class="no">1143</span> Longest Common Subsequence</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>For any DP prompt you write one sentence defining <code>dp(state)</code>, then the recurrence, then the base case — in that order, before any code.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 1</b>Tue</div>
+    <div>
+      <p class="day-t">Union Find <em>+ catch-up</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/redundant-connection/"><span class="no">684</span> Redundant Connection</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/accounts-merge/"><span class="no">721</span> Accounts Merge</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/min-cost-to-connect-all-points/"><span class="no">1584</span> Connect All Points — optional</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can tell &ldquo;is it reachable right now&rdquo; (DFS/BFS) from &ldquo;edges keep arriving&rdquo; (Union Find). Skip 1584 unless everything else is clean — MSTs are off the critical path.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 2</b>Wed</div>
+    <div>
+      <p class="day-t">Array patterns + linked-list retrieval</p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/maximum-subarray/"><span class="no">53</span> Maximum Subarray</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/longest-repeating-character-replacement/"><span class="no">424</span> Character Replacement</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/reorder-list/"><span class="no">143</span> Reorder List</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You can derive Kadane from &ldquo;extend or restart&rdquo;, state the window invariant for 424, and 143 comes out clean — it is find-middle plus reverse plus join, the three linked-list moves in <a href="#linked-list">[7]</a>, and linked lists are where your silent bugs live.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 3</b>Thu</div>
+    <div>
+      <p class="day-t">Mixed simulation I <em>no tags</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/path-with-minimum-effort/"><span class="no">1631</span> Path With Minimum Effort — 45 min, timed</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/time-based-key-value-store/"><span class="no">981</span> Time Based Key-Value Store</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/task-scheduler/"><span class="no">621</span> Task Scheduler</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You named the family without opening the tags, and stated the baseline before optimising even where the pattern was obvious.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 4</b>Fri</div>
+    <div>
+      <p class="day-t">Mixed simulation II <em>no tags</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/evaluate-division/"><span class="no">399</span> Evaluate Division — 45 min, timed</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/binary-tree-right-side-view/"><span class="no">199</span> Right Side View</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/k-closest-points-to-origin/"><span class="no">973</span> K Closest Points</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>An unfamiliar story gets turned into nodes, edges and transitions on paper instead of a hunt through memory for a matching problem.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 5</b>Sat</div>
+    <div>
+      <p class="day-t">Full mock <em>two rounds</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/cheapest-flights-within-k-stops/"><span class="no">787</span> Cheapest Flights Within K Stops</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/kth-smallest-element-in-a-bst/"><span class="no">230</span> Kth Smallest in a BST</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule — re-solve</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>Two 45-minute rounds finished back to back with no hints, time managed, reasoning narrated, and at least one approach compared against an alternative out loud.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 6</b>Sun</div>
+    <div>
+      <p class="day-t">Repair day <em>no new topics</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="#google-day">Re-solve your three worst, blank file</a></li>
+        <li><a class="chip" href="#google-focus">Final 30 min STAR pass</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>Each of the three has one written sentence — &ldquo;the clue I missed was ___&rdquo; — and each now works from a blank file. Nothing new gets opened today.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 7</b>Mon</div>
+    <div>
+      <p class="day-t">Retrieval <em>stop by mid-afternoon</em></p>
+      <ul class="chips">
+        <li><a class="chip lead" href="https://leetcode.com/problems/number-of-islands/"><span class="no">200</span> Number of Islands — re-solve</a></li>
+        <li><a class="chip lead" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule — re-solve</a></li>
+        <li><a class="chip" href="https://leetcode.com/problems/network-delay-time/"><span class="no">743</span> Network Delay Time — re-solve</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>DFS, BFS, heap push/pop, binary search, Kahn, Dijkstra and the backtracking skeleton all come out of memory without a syntax lookup. Then stop — late cramming has negative expected value.</p>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-when"><b>Sep 8</b>Tue</div>
+    <div>
+      <p class="day-t">Interview day <em>warm up, don&rsquo;t train</em></p>
+      <ul class="chips">
+        <li><a class="chip" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/"><span class="no">104</span> Maximum Depth — optional warmup</a></li>
+      </ul>
+      <p class="done"><b>Done when</b>You stop after the warmup. No new Hard, no new algorithm. If you stall in the room, go back to the structure: states, transitions, constraints, repeated work, invariants.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ GOOGLE — HOW A DAY RUNS ============ -->
+<section id="google-day">
+<div class="card">
+  <div class="card-hd"><h2>How a day runs</h2></div>
+
+  <p class="slot">The study block — about 100 minutes</p>
+  <ul>
+    <li><strong>10 min — templates from memory.</strong> Blank file, no reference. Two of: DFS, BFS with <code>deque</code>, <code>heapq</code> push/pop, binary search boundary, Kahn, Dijkstra, backtracking skeleton. Rotate so each is typed roughly every third day.</li>
+    <li><strong>45 min — the first mandatory problem</strong>, derived rather than recalled. About 30 minutes of genuine attempt on a new Medium before reading anything, and then only enough to find the missing idea.</li>
+    <li><strong>30 min — the second mandatory problem.</strong></li>
+    <li><strong>10 min — follow-up and error log.</strong> One changed-constraint question answered out loud, and one line in the log for anything that went wrong.</li>
+    <li>The third problem is a bonus, not a debt. Backlog and re-solves outrank it every time.</li>
+  </ul>
+
+  <div class="gate"><b>Timer discipline</b>New Medium: 30 minutes of real attempt before a hint. Timed round: 45 minutes, hard stop. Anything you needed help with goes on tomorrow&rsquo;s list.</div>
+
+  <p class="slot">Inside a 45-minute round</p>
+  <div class="code"><div class="code-hd"><span class="lbl">cadence</span><button class="copy">Copy</button></div><pre><code># 0-5    restate, clarify constraints, one tiny example + one edge case
+# 5-10   baseline approach out loud + its complexity, then what to improve
+# 10-32  state the invariant, then code while narrating the choices
+# 32-38  walk a normal example by hand, then an edge case
+# 38-42  final time/space complexity, one follow-up
+# 42-45  buffer</code></pre></div>
+
+  <p class="slot">What narration sounds like</p>
+  <ul>
+    <li><strong>Clarify</strong> — &ldquo;Can there be duplicates, and may I modify the input?&rdquo;</li>
+    <li><strong>Baseline</strong> — &ldquo;Every pair is O(n²). The repeated scan is the waste; a hash map removes it.&rdquo;</li>
+    <li><strong>Define state</strong> — &ldquo;<code>dfs(node)</code> is the maximum depth of the subtree rooted at node.&rdquo;</li>
+    <li><strong>Invariant</strong> — &ldquo;The window always holds at most k characters beyond its most frequent one.&rdquo;</li>
+    <li><strong>Self-correct</strong> — &ldquo;That duplicates queue entries. I&rsquo;ll mark seen on enqueue instead.&rdquo;</li>
+    <li><strong>Complexity</strong> — &ldquo;Each node and edge once, so O(V+E) time, O(V) for the queue and visited set.&rdquo;</li>
+    <li><strong>Follow-up</strong> — &ldquo;With unequal weights BFS stops being valid; I&rsquo;d move to Dijkstra for non-negative edges.&rdquo;</li>
+  </ul>
+
+  <p class="slot">Error log — one entry per failure</p>
+  <div class="code"><div class="code-hd"><span class="lbl">template</span><button class="copy">Copy</button></div><pre><code># Problem:
+# Pattern I should have recognised:
+# The clue in the prompt I missed:
+# Bug or reasoning gap:
+# One-sentence rule for next time:</code></pre></div>
+  <p class="note">On Sep 6 this log <em>is</em> the curriculum. It is the only reason repair day works.</p>
+
+  <details class="deep">
+    <summary>What changed from the first draft of the plan</summary>
+    <div class="deep-body">
+      <ul>
+        <li><strong>Timed rehearsal moved to day 3</strong> (Aug 22) instead of day 15. Two weeks of untimed solving followed by a sudden mock is how time management becomes the thing that fails.</li>
+        <li><strong>Word Ladder demoted to a modelling exercise.</strong> It is a Hard whose lesson — the graph is hidden inside the story — takes ten minutes to absorb and two hours to grind out. 1091 takes the coding slot instead.</li>
+        <li><strong>Open the Lock moved to Aug 29</strong> as the first unseen timed problem, which frees repair day to actually repair rather than teach.</li>
+        <li><strong>MST/Prim made optional</strong> and Sep 1 turned into a catch-up day. Nineteen straight days with no slack is a plan that breaks on the first bad evening.</li>
+        <li><strong>Linked lists added back</strong> via 143 on Sep 2. They were cut entirely from the original plan, and they are the one area with a documented history of silent bugs — see <a href="#checklist">the checklist</a>.</li>
+        <li><strong>Daily template warm-up and follow-up drill added.</strong> Fifteen minutes a day, spaced, aimed straight at retrieval speed and the follow-up questions.</li>
+        <li><strong>Behavioural prep scheduled</strong> in three 30-minute slots. It was missing from a plan for a loop that scores it.</li>
+        <li><strong>Every day got a measurable finish line</strong>, and the third problem was made explicitly droppable so the backlog can never lose to new material.</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="watch"><b>The bar for September 8</b>You do not need every algorithm. You need to turn an unfamiliar prompt into a known structure, explain the reasoning while you do it, write working Python for the common patterns, and test it systematically. Forty problems understood beat a hundred memorised.</div>
+</div>
+</section>
+
+<p class="part">Part four — Microsoft focus</p>
 
 <section id="microsoft">
 <div class="card">
@@ -1410,7 +1822,7 @@ return p.val == q.val and same(p.left, q.left) and same(p.right, q.right)</code>
 </div>
 </section>
 
-<p class="part">Part four — when it breaks</p>
+<p class="part">Part five — when it breaks</p>
 
 <section id="checklist">
 <div class="card">
@@ -1507,7 +1919,7 @@ if reach &gt;= len(nums) - 1:   # RIGHT - reaching the last index is enough</cod
 </div>
 </section>
 
-<p class="part">Part five — Python glossary</p>
+<p class="part">Part six — Python glossary</p>
 
 <div class="gloss">
 <section id="g-lists">
