@@ -44,6 +44,71 @@
     });
   });
 
+  /* ---- per-day notes panel ---- */
+  (function(){
+    var panel = document.getElementById('notes');
+    if(!panel) return;                        // only the plan page has days
+
+    var scrim   = document.getElementById('notes-scrim'),
+        dayEl   = document.getElementById('notes-day'),
+        titleEl = document.getElementById('notes-title'),
+        body    = document.getElementById('notes-body'),
+        closeB  = document.getElementById('notes-x'),
+        prevB   = document.getElementById('notes-prev'),
+        nextB   = document.getElementById('notes-next'),
+        buttons = Array.prototype.slice.call(document.querySelectorAll('.note-btn')),
+        index   = -1;
+
+    function show(i){
+      var btn = buttons[i];
+      if(!btn) return;
+      var src = document.getElementById('note-' + btn.dataset.day);
+      buttons.forEach(function(b){ b.classList.remove('on'); });
+      btn.classList.add('on');
+      dayEl.textContent   = btn.dataset.label;
+      titleEl.textContent = btn.dataset.title;
+      body.innerHTML      = src ? src.innerHTML : '<p>No notes for this day yet.</p>';
+      body.scrollTop      = 0;
+      prevB.disabled = i === 0;
+      nextB.disabled = i === buttons.length - 1;
+      index = i;
+    }
+
+    function open(i){
+      show(i);
+      panel.hidden = false; scrim.hidden = false;
+      document.body.classList.add('notes-open');
+      requestAnimationFrame(function(){
+        panel.classList.add('open'); scrim.classList.add('open');
+        closeB.focus();
+      });
+    }
+
+    function close(){
+      panel.classList.remove('open'); scrim.classList.remove('open');
+      document.body.classList.remove('notes-open');
+      setTimeout(function(){ panel.hidden = true; scrim.hidden = true; }, 220);
+      if(buttons[index]) buttons[index].focus();
+      buttons.forEach(function(b){ b.classList.remove('on'); });
+      index = -1;
+    }
+
+    buttons.forEach(function(btn, i){
+      btn.addEventListener('click', function(){ open(i); });
+    });
+    closeB.addEventListener('click', close);
+    scrim.addEventListener('click', close);
+    prevB.addEventListener('click', function(){ if(index > 0) show(index - 1); });
+    nextB.addEventListener('click', function(){ if(index < buttons.length - 1) show(index + 1); });
+
+    document.addEventListener('keydown', function(e){
+      if(index < 0) return;
+      if(e.key === 'Escape')     { close(); }
+      if(e.key === 'ArrowLeft'  && index > 0) show(index - 1);
+      if(e.key === 'ArrowRight' && index < buttons.length - 1) show(index + 1);
+    });
+  })();
+
   /* ---- any external link opens in a new tab ---- */
   document.querySelectorAll('a[href^="http"]').forEach(function(a){
     if(a.host !== location.host){ a.target = '_blank'; a.rel = 'noopener'; }
