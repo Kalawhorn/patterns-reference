@@ -92,7 +92,7 @@
 <section id="google-plan">
 <div class="card">
   <div class="card-hd"><h2>The 19 days</h2></div>
-  <p>Two problems are mandatory; the third is a transfer test and it is always the one you drop when time runs out. Every day has one measurable finish line — if you can&rsquo;t do the <em>done when</em>, the day isn&rsquo;t finished, and the next day loses its third problem instead.</p>
+  <p>The first two problems are mandatory. The third <strong>reinforces</strong> the same idea while it is still warm — a second rep, not a new topic. The fourth is the <strong>transfer test</strong>, and it is the one you drop when time runs out. Every day has one measurable finish line — if you can&rsquo;t do the <em>done when</em>, the day isn&rsquo;t finished, and tomorrow loses its transfer problem instead.</p>
 
   <div class="gate"><b>Re-solve rule</b>Anything that needed a hint or an editorial goes back on the next day&rsquo;s list, from a blank file. Backlog beats new topics, always.</div>
 
@@ -114,6 +114,7 @@
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/maximum-depth-of-binary-tree/"><span class="no">104</span> Maximum Depth</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/invert-binary-tree/"><span class="no">226</span> Invert Binary Tree</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/balanced-binary-tree/"><span class="no">110</span> Balanced &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/diameter-of-binary-tree/"><span class="no">543</span> Diameter</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can say what <code>dfs(node)</code> returns before writing it, and 543 makes sense as &ldquo;return height upward, update a different global answer&rdquo;.</p>
@@ -142,6 +143,7 @@ def valid(node, low, high):      # bounds come from ancestors, not the parent
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/binary-tree-level-order-traversal/"><span class="no">102</span> Level Order</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/validate-binary-search-tree/"><span class="no">98</span> Validate BST</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/"><span class="no">103</span> Zigzag Level Order &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/"><span class="no">236</span> Lowest Common Ancestor</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can explain why 98 needs ancestor bounds rather than parent-child comparisons, and name what state crosses each recursive boundary.</p>
@@ -170,6 +172,7 @@ def dfs(r, c):
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/number-of-islands/"><span class="no">200</span> Number of Islands</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/clone-graph/"><span class="no">133</span> Clone Graph</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/surrounded-regions/"><span class="no">130</span> Surrounded Regions &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/max-area-of-island/"><span class="no">695</span> Max Area of Island</a></li>
       </ul>
       <p class="done"><b>Done when</b>200 was solved under a 45-minute timer, narrated aloud, in a blank editor with no autocomplete — the first rehearsal, on purpose, in week one.</p>
@@ -201,6 +204,7 @@ while q:
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/rotting-oranges/"><span class="no">994</span> Rotting Oranges</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/shortest-path-in-binary-matrix/"><span class="no">1091</span> Shortest Path in Binary Matrix</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/01-matrix/"><span class="no">542</span> 01 Matrix &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/pacific-atlantic-water-flow/"><span class="no">417</span> Pacific Atlantic</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/word-ladder/"><span class="no">127</span> Word Ladder — model only</a></li>
       </ul>
@@ -236,6 +240,7 @@ while q:
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/course-schedule/"><span class="no">207</span> Course Schedule</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/course-schedule-ii/"><span class="no">210</span> Course Schedule II</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/minimum-height-trees/"><span class="no">310</span> Minimum Height Trees &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/find-eventual-safe-states/"><span class="no">802</span> Eventual Safe States</a></li>
       </ul>
       <p class="done"><b>Done when</b>Edge direction follows the story without hesitation, and you can state why <code>len(order) &lt; n</code> means a cycle.</p>
@@ -270,6 +275,7 @@ while heap:
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/kth-largest-element-in-an-array/"><span class="no">215</span> Kth Largest</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/network-delay-time/"><span class="no">743</span> Network Delay Time</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/top-k-frequent-elements/"><span class="no">347</span> Top K Frequent &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/path-with-maximum-probability/"><span class="no">1514</span> Max Probability</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can explain where BFS stops being valid and why the heap fixes it, and why stale heap entries are skipped rather than removed.</p>
@@ -295,6 +301,7 @@ for start, end in intervals:
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/merge-intervals/"><span class="no">56</span> Merge Intervals</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/insert-interval/"><span class="no">57</span> Insert Interval</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/"><span class="no">452</span> Burst Balloons &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/non-overlapping-intervals/"><span class="no">435</span> Non-overlapping Intervals</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can give the reason the greedy choice in 435 cannot hurt the global answer — not just the rule, the argument.</p>
@@ -323,6 +330,7 @@ for start, end in intervals:
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/binary-search/"><span class="no">704</span> Binary Search</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/search-in-rotated-sorted-array/"><span class="no">33</span> Rotated Sorted Array</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"><span class="no">153</span> Find Minimum in Rotated &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/koko-eating-bananas/"><span class="no">875</span> Koko Eating Bananas</a></li>
       </ul>
       <p class="done"><b>Done when</b>You write what <code>lo</code> and <code>hi</code> mean before the loop, and &ldquo;minimum X such that…&rdquo; makes you look for a monotonic predicate automatically.</p>
@@ -349,6 +357,7 @@ def backtrack(start):
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/subsets/"><span class="no">78</span> Subsets</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/permutations/"><span class="no">46</span> Permutations</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/combinations/"><span class="no">77</span> Combinations &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/combination-sum/"><span class="no">39</span> Combination Sum</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can name state, choices, completion condition and undo before coding — four sentences, then type.</p>
@@ -378,6 +387,7 @@ board[r][c] = letter</code></pre></div>
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/word-search/"><span class="no">79</span> Word Search</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/generate-parentheses/"><span class="no">22</span> Generate Parentheses</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/palindrome-partitioning/"><span class="no">131</span> Palindrome Partitioning &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/open-the-lock/"><span class="no">752</span> Open the Lock — 45 min, timed, unseen</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can say which partial states are impossible and cut them before recursing — and 752 was recognised as BFS over a hidden state space <em>before</em> coding, under the timer.</p>
@@ -406,6 +416,7 @@ def rob(i):
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/climbing-stairs/"><span class="no">70</span> Climbing Stairs</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/house-robber/"><span class="no">198</span> House Robber</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/min-cost-climbing-stairs/"><span class="no">746</span> Min Cost Climbing Stairs &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/coin-change/"><span class="no">322</span> Coin Change</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can derive House Robber&rsquo;s state and recurrence on paper before coding, and the re-solve backlog is empty. Clear the backlog first.</p>
@@ -433,6 +444,7 @@ dp = [[0] * (cols + 1) for _ in range(rows + 1)]   # the bottom-up shape</code><
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/unique-paths/"><span class="no">62</span> Unique Paths</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/word-break/"><span class="no">139</span> Word Break</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/unique-paths-ii/"><span class="no">63</span> Unique Paths II &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/longest-common-subsequence/"><span class="no">1143</span> Longest Common Subsequence</a></li>
       </ul>
       <p class="done"><b>Done when</b>For any DP prompt you write one sentence defining <code>dp(state)</code>, then the recurrence, then the base case — in that order, before any code.</p>
@@ -469,6 +481,7 @@ def union(a, b):
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/redundant-connection/"><span class="no">684</span> Redundant Connection</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/accounts-merge/"><span class="no">721</span> Accounts Merge</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/number-of-provinces/"><span class="no">547</span> Number of Provinces &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/min-cost-to-connect-all-points/"><span class="no">1584</span> Connect All Points — optional</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can tell &ldquo;is it reachable right now&rdquo; (DFS/BFS) from &ldquo;edges keep arriving&rdquo; (Union Find). Skip 1584 unless everything else is clean — MSTs are off the critical path.</p>
@@ -506,6 +519,7 @@ while cur:
       <ul class="chips">
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/maximum-subarray/"><span class="no">53</span> Maximum Subarray</a></li>
         <li><a target="_blank" rel="noopener" class="chip lead" href="https://leetcode.com/problems/longest-repeating-character-replacement/"><span class="no">424</span> Character Replacement</a></li>
+        <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/minimum-size-subarray-sum/"><span class="no">209</span> Minimum Size Subarray &mdash; reinforce</a></li>
         <li><a target="_blank" rel="noopener" class="chip" href="https://leetcode.com/problems/reorder-list/"><span class="no">143</span> Reorder List</a></li>
       </ul>
       <p class="done"><b>Done when</b>You can derive Kadane from &ldquo;extend or restart&rdquo;, state the window invariant for 424, and 143 comes out clean — it is find-middle plus reverse plus join, the three linked-list moves in <a href="index.html#linked-list">[7]</a>, and linked lists are where your silent bugs live.</p>
@@ -765,6 +779,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>104 Maximum Depth</strong> &mdash; the return value <em>is</em> the answer. The cleanest possible version of the pattern.</li>
   <li><strong>226 Invert Binary Tree</strong> &mdash; local work at every node, then recurse. Order does not matter: swapping a node&rsquo;s children and inverting each subtree are independent, so swap-then-recurse and recurse-then-swap agree.</li>
+  <li><strong>110 Balanced Binary Tree &mdash; reinforce</strong> &mdash; height again, but the answer is a yes/no condition checked at every node. The dry run for 543: same walk, different thing recorded.</li>
   <li><strong>543 Diameter</strong> &mdash; the return value is <em>not</em> the answer. Return the height; while you have both child heights in hand, record <code>left + right</code> as a candidate. One pass, O(n) time, O(h) stack.</li>
 </ul>
 
@@ -788,6 +803,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>102 Level Order</strong> &mdash; the canonical BFS shape. Everything later with &ldquo;per level&rdquo; in it reuses this loop.</li>
   <li><strong>98 Validate BST</strong> &mdash; pass <code>(low, high)</code> down; start with <code>-inf, inf</code>; going left tightens the high bound, going right tightens the low one.</li>
+  <li><strong>103 Zigzag Level Order &mdash; reinforce</strong> &mdash; the 102 loop unchanged; only the order you record each level flips. Reverse the level list, never the queue.</li>
   <li><strong>236 LCA</strong> &mdash; return the node itself when found, <code>None</code> when not. If both sides return non-<code>None</code>, this node is the answer; if only one does, pass it up. Read that rule twice &mdash; it is the entire solution. <strong>KEY:</strong> check <code>if node is p or node is q: return node</code> BEFORE recursing to children. This catches targets that ARE the node itself, and seeds the recursion.</li>
 </ul>
 
@@ -811,6 +827,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>200 Number of Islands</strong> &mdash; today&rsquo;s timed round. Blank editor, 45 minutes, talk the whole way through.</li>
   <li><strong>133 Clone Graph</strong> &mdash; the map <code>original &rarr; copy</code> is both your memo and your visited set. Create the copy <em>before</em> recursing into neighbours, or a cycle will recurse forever.</li>
+  <li><strong>130 Surrounded Regions &mdash; reinforce</strong> &mdash; the same flood fill, inverted: start from the border, mark everything reachable as safe, then flip the rest. Practice at choosing where to start.</li>
   <li><strong>695 Max Area</strong> &mdash; same walk as 200, but DFS returns an accumulated size: <code>1 + sum of the four calls</code>.</li>
 </ul>
 
@@ -834,6 +851,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>994 Rotting Oranges</strong> &mdash; seed the queue with <em>every</em> rotten cell before the loop starts.</li>
   <li><strong>1091 Shortest Path in Binary Matrix</strong> &mdash; eight directions, not four; the answer counts cells, so a one-cell grid answers 1.</li>
+  <li><strong>542 01 Matrix &mdash; reinforce</strong> &mdash; multi-source BFS again, seeded with every zero. If 994 felt lucky rather than understood, this is the one that settles it.</li>
   <li><strong>417 Pacific Atlantic</strong> &mdash; invert the question. Instead of asking which cells reach the ocean, flood <em>inward from each ocean</em> and intersect the two reachable sets.</li>
   <li><strong>127 Word Ladder</strong> &mdash; modelling exercise only. Say out loud: nodes are words, an edge is a one-letter change, so it is unweighted shortest path. Then stop; do not grind it to Accepted today.</li>
 </ul>
@@ -858,6 +876,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>207 Course Schedule</strong> &mdash; the reference implementation. You will re-solve this on Sep 5 and Sep 7, so build it cleanly today.</li>
   <li><strong>210 Course Schedule II</strong> &mdash; identical machinery; just return <code>order</code> instead of a boolean.</li>
+  <li><strong>310 Minimum Height Trees &mdash; reinforce</strong> &mdash; Kahn&rsquo;s machinery on an undirected graph: peel degree-one leaves layer by layer until one or two nodes remain. Same queue, same degree counting.</li>
   <li><strong>802 Eventual Safe States</strong> &mdash; the same reasoning with the edges reversed: a node is safe when every path out of it terminates.</li>
 </ul>
 
@@ -882,6 +901,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>215 Kth Largest</strong> &mdash; heap mechanics, plus the size-k decision. Quickselect is the O(n) average follow-up to mention.</li>
   <li><strong>743 Network Delay Time</strong> &mdash; textbook Dijkstra. The answer is the <em>maximum</em> finalised distance, and unreachable nodes mean &minus;1.</li>
+  <li><strong>347 Top K Frequent &mdash; reinforce</strong> &mdash; count, then a size-k heap. Say the O(n log k) out loud and compare it with sorting, exactly as you did for 215.</li>
   <li><strong>1514 Max Probability</strong> &mdash; transfer test: maximise a product instead of minimising a sum. Push negated probabilities and the same algorithm works.</li>
 </ul>
 
@@ -905,6 +925,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>56 Merge Intervals</strong> &mdash; the invariant: everything in <code>merged</code> is final except the last entry.</li>
   <li><strong>57 Insert Interval</strong> &mdash; three explicit regions: strictly before, overlapping, strictly after. Write those three loops rather than one clever one.</li>
+  <li><strong>452 Minimum Arrows &mdash; reinforce</strong> &mdash; 435 wearing a different hat: sort by end, keep the earliest finisher, count. Seeing that they are the same problem means the greedy argument has landed.</li>
   <li><strong>435 Non-overlapping Intervals</strong> &mdash; sort by end, keep greedily, count what you dropped. The exchange argument: any solution using a later-ending interval can swap in the earlier-ending one without getting worse.</li>
 </ul>
 
@@ -929,6 +950,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>704 Binary Search</strong> &mdash; get the template bug-free; you will lean on it all month.</li>
   <li><strong>33 Rotated Sorted Array</strong> &mdash; one half is always sorted. That single fact is the whole problem.</li>
+  <li><strong>153 Find Minimum in Rotated &mdash; reinforce</strong> &mdash; the 33 idea with no target to find: compare against <code>nums[hi]</code> and keep the half that must contain the pivot.</li>
   <li><strong>875 Koko</strong> &mdash; the canonical answer-space search. <code>feasible(speed)</code> = &ldquo;she finishes in time&rdquo;, which is monotonic in speed.</li>
 </ul>
 
@@ -952,6 +974,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>78 Subsets</strong> &mdash; every node of the recursion tree is an answer, so record on entry rather than at a base case.</li>
   <li><strong>46 Permutations</strong> &mdash; choices come from unused values, not from an index that only moves forward.</li>
+  <li><strong>77 Combinations &mdash; reinforce</strong> &mdash; 78 with a completion condition. You record only when the path reaches length k, which forces you to separate &ldquo;record&rdquo; from &ldquo;recurse&rdquo;.</li>
   <li><strong>39 Combination Sum</strong> &mdash; add a remaining-target to the state; passing <code>i</code> rather than <code>i + 1</code> is what allows reuse. Stop the branch when the remainder goes negative.</li>
 </ul>
 
@@ -975,6 +998,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>79 Word Search</strong> &mdash; grid traversal with temporary visited state; the undo is the whole difficulty.</li>
   <li><strong>22 Generate Parentheses</strong> &mdash; two counters, two guarded choices. Nothing invalid is ever built.</li>
+  <li><strong>131 Palindrome Partitioning &mdash; reinforce</strong> &mdash; each choice is a valid substring, so the pruning is a validity check made before you recurse. Do this one before the timed round.</li>
   <li><strong>752 Open the Lock &mdash; timed, 45 minutes, unseen.</strong> Resist pattern-matching to backtracking because that is today&rsquo;s topic. Notice: shortest number of moves, every move costs one, states are 4-digit strings &rarr; BFS. Deadends go straight into <code>seen</code> before you start.</li>
 </ul>
 
@@ -998,6 +1022,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>70 Climbing Stairs</strong> &mdash; the smallest possible repeated-subproblem example; also the cleanest place to show the O(1)-space rolling version.</li>
   <li><strong>198 House Robber</strong> &mdash; take-vs-skip. <code>rob(i)</code> = best haul from house <code>i</code> onward.</li>
+  <li><strong>746 Min Cost Climbing Stairs &mdash; reinforce</strong> &mdash; 70 and 198 combined: two ways in, and a cost attached to each step. Write <code>dp(i)</code> as a sentence before coding.</li>
   <li><strong>322 Coin Change</strong> &mdash; many transitions per state, and the impossible case is the entire difficulty.</li>
 </ul>
 
@@ -1021,6 +1046,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>62 Unique Paths</strong> &mdash; each cell is the sum of the cell above and the cell to the left; the edges are the base case.</li>
   <li><strong>139 Word Break</strong> &mdash; &ldquo;can the prefix <code>s[:i]</code> be formed?&rdquo; Try every split point <code>j &lt; i</code>.</li>
+  <li><strong>63 Unique Paths II &mdash; reinforce</strong> &mdash; 62 plus obstacles. A blocked cell contributes zero paths, and a blocked starting cell is the edge case people miss.</li>
   <li><strong>1143 LCS</strong> &mdash; the canonical two-index DP. If you learn one 2D recurrence this month, make it this one.</li>
 </ul>
 
@@ -1044,6 +1070,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>684 Redundant Connection</strong> &mdash; the first edge whose endpoints already share a root closes a cycle. Return that edge.</li>
   <li><strong>721 Accounts Merge</strong> &mdash; the components are implicit: union accounts that share an email, then group by root and sort. Most of the work is bookkeeping, not the algorithm.</li>
+  <li><strong>547 Number of Provinces &mdash; reinforce</strong> &mdash; components counted by unions: start at n and decrement on every successful union. DFS also solves it &mdash; say which you picked and why.</li>
   <li><strong>1584 Min Cost to Connect All Points &mdash; optional.</strong> Skip it unless the backlog is empty. MSTs are off the critical path for L4.</li>
 </ul>
 
@@ -1068,6 +1095,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>53 Maximum Subarray</strong> &mdash; at each element: extend the previous run, or start fresh here. That is the whole recurrence.</li>
   <li><strong>424 Character Replacement</strong> &mdash; window valid while <code>length &minus; most_frequent_count &le; k</code>.</li>
+  <li><strong>209 Minimum Size Subarray Sum &mdash; reinforce</strong> &mdash; here the window shrinks while it is still <em>valid</em>, the mirror image of 424. State the invariant before you code it.</li>
   <li><strong>143 Reorder List</strong> &mdash; three moves you already know, in sequence: find the middle with fast/slow, reverse the second half, then weave the two chains. Test on even and odd lengths.</li>
 </ul>
 
