@@ -788,7 +788,7 @@ graph[v].append((u, 1 / w))</code></pre></div>
 <ul>
   <li><strong>102 Level Order</strong> &mdash; the canonical BFS shape. Everything later with &ldquo;per level&rdquo; in it reuses this loop.</li>
   <li><strong>98 Validate BST</strong> &mdash; pass <code>(low, high)</code> down; start with <code>-inf, inf</code>; going left tightens the high bound, going right tightens the low one.</li>
-  <li><strong>236 LCA</strong> &mdash; return the node itself when found, <code>None</code> when not. If both sides return non-<code>None</code>, this node is the answer; if only one does, pass it up. Read that rule twice &mdash; it is the entire solution.</li>
+  <li><strong>236 LCA</strong> &mdash; return the node itself when found, <code>None</code> when not. If both sides return non-<code>None</code>, this node is the answer; if only one does, pass it up. Read that rule twice &mdash; it is the entire solution. <strong>KEY:</strong> check <code>if node is p or node is q: return node</code> BEFORE recursing to children. This catches targets that ARE the node itself, and seeds the recursion.</li>
 </ul>
 
 <h4>Say this</h4>
